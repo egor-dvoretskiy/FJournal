@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FJournalLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace FJournalGUI
         public MainWindow()
         {
             InitializeComponent();
+
+            FJournalLib.Journal journal = new FJournalLib.Journal();
+            journal.Note(new FJournalLib.Models.TRecord()
+            {
+                Message = "Hello from FJournal GUI",
+                LogType = FJournalLib.Enums.LogType.Info
+            });
         }
     }
 }

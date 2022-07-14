@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Text.RegularExpressions;
+using MongoDB.Bson;
 
 namespace FJournalLib.Repositories
 {
@@ -33,7 +34,7 @@ namespace FJournalLib.Repositories
             collection.InsertOne(record);
         }
 
-        public void Delete(uint id, string collectionName = "")
+        public void Delete(ObjectId id, string collectionName = "")
         {
             string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
 
@@ -46,7 +47,7 @@ namespace FJournalLib.Repositories
 
         }
 
-        public DBRecord GetRecord(uint id, string collectionName = "")
+        public DBRecord GetRecord(ObjectId id, string collectionName = "")
         {
             string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
 

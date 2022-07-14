@@ -1,4 +1,7 @@
 ﻿using FJournalLib.Enums;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,8 @@ namespace FJournalLib.Models
 {
     internal class DBRecord
     {
-        public uint Id { get; set; }
+        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
+        public ObjectId Id { get; set; }
 
         public DateTime TimeStamp { get; set; }
 
@@ -18,5 +22,15 @@ namespace FJournalLib.Models
         public LogType LogType { get; set; }
 
         public string? Message { get; set; }
+
+        public string CallerMemberName { get; set; } = "-";
+
+        public string CallerFilePath { get; set; } = "-";
+
+        public uint CallerLineNumber { get; set; } = 0;
+
+        public float TotalCpuUsage { get; set; }
+
+        public long PrivateMemoryUsage { get; set; }
     }
 }

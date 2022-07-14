@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,13 @@ namespace FJournalLib.Interfaces
     {
         IMongoCollection<T> GetCollectionByName(string collectionName = "");
 
-        T GetRecord(uint id, string collectionName = "");
+        T GetRecord(ObjectId id, string collectionName = "");
 
         void Create(T record);
 
         void Update(T record);
 
-        void Delete(uint id, string collectionName = "");
+        void Delete(ObjectId id, string collectionName = "");
 
         void Save();
     }

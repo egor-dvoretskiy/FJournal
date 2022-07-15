@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FJournalGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="FJournal" MinHeight="400" MinWidth="1080" Height="400" Width="1080">
+    <Grid Background="{StaticResource ControlBackgroundNormal}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <DataGrid 
+                x:Name="dg_dbRecords" 
+                MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
+                IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="TimeStamp" Width="140" Binding="{Binding Records.TimeStamp, Mode=OneWay}"/>
+                    <!--
+                    <DataGridTextColumn Header="Source" Binding="{Binding Records.LogSource, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Records.LogType, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Message" Width="140" Binding="{Binding Records.Message, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="CallerMemberName" Binding="{Binding Records.CallerMemberName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="CallerFilePath" Binding="{Binding Records.CallerFilePath, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="CallerLineNumber" Binding="{Binding Records.CallerLineNumber, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="TotalCpuUsage" Binding="{Binding Records.TotalCpuUsage, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="PrivateMemoryUsage" Binding="{Binding Records.PrivateMemoryUsage, Mode=OneWay}"/>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>                
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <Button Content="Analyze scheme" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
+                    <Button Content="Export data" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
+                    <Button Content="Report a bug" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <GroupBox Header="Filter">
+                    <StackPanel Orientation="Vertical">
 
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Button Content="Apply" Style="{StaticResource Button}"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Button Content="Reset" Style="{StaticResource Button}"/>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

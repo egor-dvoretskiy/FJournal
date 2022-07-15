@@ -11,4 +11,8 @@
     <ProjectReference Include="..\FJournalLib\FJournalLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

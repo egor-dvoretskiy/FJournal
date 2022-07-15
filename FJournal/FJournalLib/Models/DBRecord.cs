@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FJournalLib.Models
 {
-    internal class DBRecord
+    public class DBRecord
     {
         [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
         public ObjectId Id { get; set; }

@@ -1,4 +1,5 @@
-﻿using FJournalLib.Models;
+﻿using FJournalLib.Interfaces;
+using FJournalLib.Models;
 using FJournalLib.Repositories;
 using MongoDB.Driver;
 using System;
@@ -13,7 +14,7 @@ namespace FJournalLib
     {
         private static bool isEnabled = false;
 
-        private readonly MongoRecordRepository _recordRepository;
+        private readonly IRepository<DBRecord> _recordRepository;
         private readonly PerformanceCounter _totalCpuCounter;
 
         public Journal()

@@ -27,7 +27,14 @@ namespace FJournalGUI
         {
             InitializeComponent();
 
+            this.grid_TitleBar.MouseLeftButtonDown += Grid_TitleBar_MouseLeftButtonDown;
+
             this.DataContext = new ApplicationViewModel();
+        }
+
+        private void Grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
 
         private void dg_dbRecords_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -40,6 +47,11 @@ namespace FJournalGUI
             if (selectedRow != null)
                 MessageBox.Show($"You've picked the wrong house, fool. Message: {selectedRow.Message}");
 
+        }
+
+        private void button_CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

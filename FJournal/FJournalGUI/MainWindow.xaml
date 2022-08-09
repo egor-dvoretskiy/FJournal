@@ -4,22 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FJournalGUI"
+        x:Name="FJournalWindow"
         mc:Ignorable="d"
-        Title="FJournal" MinHeight="400" MinWidth="1080" Height="400" Width="1080">
-    <Grid Background="{StaticResource ControlBackgroundNormal}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <DataGrid 
-                x:Name="dg_dbRecords" 
-                MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
-                IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="TimeStamp" Width="140" Binding="{Binding Records.TimeStamp, Mode=OneWay}"/>
-                    <!--
-                    <DataGridTextColumn Header="Source" Binding="{Binding Records.LogSource, Mode=OneWay}"/>
+        Title="FJournal" 
+        MinHeight="400" 
+        MinWidth="1080" 
+        Height="400" 
+        Width="1080" 
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True" 
+        ResizeMode="CanResize">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" 
+                      CornerRadius="0" 
+                      CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid Background="{StaticResource ControlBackgroundNormal}">        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" 
+              x:Name="grid_TitleBar" 
+              AllowDrop="True" 
+              Background="{StaticResource ControlBackgroundNormal}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Label Content="FJournal" 
+                       Foreground="{StaticResource ControlForegroundWhite}" 
+                       Margin="0,0,0,0" 
+                       Padding="25,0,0,0" 
+                       VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="2">
+                    <Button x:Name="button_CloseWindow" 
+                            Style="{StaticResource CloseRoundButton}" 
+                            Click="button_CloseWindow_Click"/>
+                </Grid>
+            </Grid>
+        </Grid>        
+        <Grid Grid.Row="1" 
+              x:Name="grid_MainLayout">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="grid_test" 
+                  Grid.Column="0">
+                <DataGrid x:Name="dg_dbRecords" 
+                          MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TimeStamp" 
+                                            Width="140" 
+                                            Binding="{Binding Records.TimeStamp, Mode=OneWay}"/>
+
+                        <DataGridTextColumn Header="Source" 
+                                            Binding="{Binding LogSource}"/>
+                        <!--
                     <DataGridTextColumn Header="Type" Binding="{Binding Records.LogType, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Message" Width="140" Binding="{Binding Records.Message, Mode=OneWay}"/>
                     <DataGridTextColumn Header="CallerMemberName" Binding="{Binding Records.CallerMemberName, Mode=OneWay}"/>
@@ -27,39 +84,51 @@
                     <DataGridTextColumn Header="CallerLineNumber" Binding="{Binding Records.CallerLineNumber, Mode=OneWay}"/>
                     <DataGridTextColumn Header="TotalCpuUsage" Binding="{Binding Records.TotalCpuUsage, Mode=OneWay}"/>
                     <DataGridTextColumn Header="PrivateMemoryUsage" Binding="{Binding Records.PrivateMemoryUsage, Mode=OneWay}"/>-->
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>                
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <StackPanel>
-                    <Button Content="Analyze scheme" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
-                    <Button Content="Export data" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
-                    <Button Content="Report a bug" Style="{StaticResource Button}" Height="20" BorderThickness="0"/>
-                </StackPanel>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
-            <Grid Grid.Row="1">
-                <GroupBox Header="Filter">
-                    <StackPanel Orientation="Vertical">
-
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel>
+                        <Button Content="Analyze scheme" 
+                                Style="{StaticResource Button}" 
+                                Height="20" 
+                                BorderThickness="0"/>
+                        <Button Content="Export data" 
+                                Style="{StaticResource Button}"
+                                Height="20" 
+                                BorderThickness="0"/>
+                        <Button Content="Report a bug" 
+                                Style="{StaticResource Button}" 
+                                Height="20" 
+                                BorderThickness="0"/>
                     </StackPanel>
-                </GroupBox>
-            </Grid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Button Content="Apply" Style="{StaticResource Button}"/>
                 </Grid>
-                <Grid Grid.Column="1">
-                    <Button Content="Reset" Style="{StaticResource Button}"/>
+                <Grid Grid.Row="1">
+                    <GroupBox Header="Filter">
+                        <StackPanel Orientation="Vertical">
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Button Content="Apply" 
+                                Style="{StaticResource Button}"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Button Content="Reset" 
+                                Style="{StaticResource Button}"/>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

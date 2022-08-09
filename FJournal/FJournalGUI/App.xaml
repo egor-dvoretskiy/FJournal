@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/ThemeBlue.xaml"/>
                 <ResourceDictionary Source="Themes/BrushesBlue.xaml"/>
+                <ResourceDictionary Source="Themes/ETheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

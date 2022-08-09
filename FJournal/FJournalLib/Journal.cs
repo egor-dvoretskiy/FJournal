@@ -1,4 +1,5 @@
-﻿using FJournalLib.Interfaces;
+﻿using FJournalLib.Enums;
+using FJournalLib.Interfaces;
 using FJournalLib.Models;
 using FJournalLib.Repositories;
 using MongoDB.Driver;
@@ -12,28 +13,28 @@ namespace FJournalLib
 {
     public class Journal
     {
-        private static bool isEnabled = false;
+        private JournalStateLocal localState = JournalStateLocal.Enabled;
+        private static JournalStateGlobal globalState = JournalStateGlobal.Enabled;
 
         private readonly IRepository<DBRecord> _recordRepository;
         private readonly PerformanceCounter _totalCpuCounter;
 
         public Journal()
         {
-            Enable();
             this._recordRepository = new MongoRecordRepository();
             this._totalCpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total", true);
         }
 
-        public static void Enable() => isEnabled = true;
+        public static void SetJournalGlobalState(JournalStateGlobal globalStateInput) => globalState = globalStateInput;
 
-        public static void Disable() => isEnabled = false;
+        public void SetJournalLocalState(JournalStateLocal localStateInput) => localState = localStateInput;
 
         public void Note(TRecord inputRecord,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] uint lineNumber = 0)
         {
-            if (!isEnabled)
+            if (globalState != JournalStateGlobal.Enabled && localState != JournalStateLocal.Enabled)
                 return;
 
             long memoryUsageMb = this.GetMemoryUsageInMb();

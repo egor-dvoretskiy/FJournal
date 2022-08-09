@@ -47,6 +47,7 @@ namespace FJournalGUI
             if (selectedRow != null)
                 MessageBox.Show($"You've picked the wrong house, fool. Message: {selectedRow.Message}");
 
+            dg_dbRecords.UnselectAll();
         }
 
         private void button_CloseWindow_Click(object sender, RoutedEventArgs e)

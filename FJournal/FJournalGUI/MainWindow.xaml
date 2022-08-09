@@ -66,25 +66,38 @@
             </Grid.ColumnDefinitions>
             <Grid x:Name="grid_test" 
                   Grid.Column="0">
+                <!--
                 <DataGrid x:Name="dg_dbRecords" 
                           MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
-                          IsReadOnly="True">
+                          IsReadOnly="True"
+                          ItemsSource="{Binding Records}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="TimeStamp" 
                                             Width="140" 
-                                            Binding="{Binding Records.TimeStamp, Mode=OneWay}"/>
-
+                                            Binding="{Binding TimeStamp}"/>
                         <DataGridTextColumn Header="Source" 
-                                            Binding="{Binding LogSource}"/>
-                        <!--
-                    <DataGridTextColumn Header="Type" Binding="{Binding Records.LogType, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Message" Width="140" Binding="{Binding Records.Message, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="CallerMemberName" Binding="{Binding Records.CallerMemberName, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="CallerFilePath" Binding="{Binding Records.CallerFilePath, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="CallerLineNumber" Binding="{Binding Records.CallerLineNumber, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="TotalCpuUsage" Binding="{Binding Records.TotalCpuUsage, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="PrivateMemoryUsage" Binding="{Binding Records.PrivateMemoryUsage, Mode=OneWay}"/>-->
+                                            Binding="{Binding LogSource}"/>                        
+                        <DataGridTextColumn Header="Type" 
+                                            Binding="{Binding LogType}"/>
+                        <DataGridTextColumn Header="Message" 
+                                            Width="140" 
+                                            Binding="{Binding Message}"/>
+                        <DataGridTextColumn Header="CallerMemberName" 
+                                            Binding="{Binding CallerMemberName}"/>
+                        <DataGridTextColumn Header="CallerFilePath" 
+                                            Binding="{Binding CallerFilePath}"/>
+                        <DataGridTextColumn Header="CallerLineNumber" 
+                                            Binding="{Binding CallerLineNumber}"/>
+                        <DataGridTextColumn Header="TotalCpuUsage" 
+                                            Binding="{Binding TotalCpuUsage}"/>
+                        <DataGridTextColumn Header="PrivateMemoryUsage" 
+                                            Binding="{Binding PrivateMemoryUsage}"/>
                     </DataGrid.Columns>
+                </DataGrid> -->
+                <DataGrid x:Name="dg_dbRecords" 
+                          MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding Records}">
                 </DataGrid>
             </Grid>
             <Grid Grid.Column="1">

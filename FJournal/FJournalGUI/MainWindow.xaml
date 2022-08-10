@@ -62,7 +62,7 @@
               x:Name="grid_MainLayout">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="grid_test" 
                   Grid.Column="0">
@@ -97,8 +97,7 @@
                 <DataGrid x:Name="dg_dbRecords" 
                           MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
                           IsReadOnly="True"
-                          ItemsSource="{Binding Records}">
-                </DataGrid>
+                          ItemsSource="{Binding Records, Mode=OneWay}"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -125,7 +124,28 @@
                 <Grid Grid.Row="1">
                     <GroupBox Header="Filter">
                         <StackPanel Orientation="Vertical">
+                            <Grid Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
+                                <Grid Grid.Column="0">
+                                    <Label Foreground="White" 
+                                           Content="Amount of Records"
+                                           Margin="0,0,0,0"
+                                           Padding="0,0,0,0"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Column="1">                                    
+                                    <TextBox x:Name="textbox_AmountOfRecordsToDisplay"
+                                             Style="{StaticResource TextBoxInputField}"/>
+                                </Grid>
+                            </Grid>
+                            <Grid Height="30">
+                                
+                            </Grid>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -135,12 +155,12 @@
                         <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Button Content="Apply" 
-                                Style="{StaticResource Button}"/>
+                        <Button x:Name="button_ApplyFilterSettings" Content="Apply" 
+                                Style="{StaticResource Button}" Click="button_ApplyFilterSettings_Click"/>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <Button Content="Reset" 
-                                Style="{StaticResource Button}"/>
+                        <Button x:Name="button_ResetFilterSettingsToDefault" Content="Reset" 
+                                Style="{StaticResource Button}" Click="button_ResetFilterSettingsToDefault_Click"/>
                     </Grid>
                 </Grid>
             </Grid>

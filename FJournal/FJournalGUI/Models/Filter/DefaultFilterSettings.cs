@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace FJournalGUI.Models.Filter
 {
-    public class FilterSettings
+    public class DefaultFilterSettings
     {
-
+        public const int AmountOfRecordsToDisplay = 333;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using FJournalGUI.ViewModels;
 using FJournalLib;
+using FJournalLib.Repositories;
+using FJournalLib.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FJournalGUI.Models.Filter;
 
 namespace FJournalGUI
 {
@@ -23,19 +26,21 @@ namespace FJournalGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ApplicationViewModel _applicationViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            this.grid_TitleBar.MouseLeftButtonDown += Grid_TitleBar_MouseLeftButtonDown;
+            this._applicationViewModel = new ApplicationViewModel();
+            this.DataContext = this._applicationViewModel;
 
-            this.DataContext = new ApplicationViewModel();
+            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
+
+            this.UpdateFilterSettingsGroupboxValues();
         }
 
-        private void Grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
+        private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
         private void dg_dbRecords_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -53,6 +58,32 @@ namespace FJournalGUI
         private void button_CloseWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void button_ApplyFilterSettings_Click(object sender, RoutedEventArgs e)
+        {
+            FilterSettingsViewModel filterSettingsViewModel = new FilterSettingsViewModel();
+
+            bool isValidCalculatedAmountOfRecordsToDisplay = int.TryParse(textbox_AmountOfRecordsToDisplay.Text, out int amountOfRecordsToDisplay);
+            if (isValidCalculatedAmountOfRecordsToDisplay)
+                filterSettingsViewModel.AmountOfRecordsToDisplay = amountOfRecordsToDisplay;
+
+            this._applicationViewModel.UpdateFilterSettingsViewModel(filterSettingsViewModel);
+            this.UpdateFilterSettingsGroupboxValues();
+
+            this.dg_dbRecords.ItemsSource = this._applicationViewModel.Records;
+        }
+
+        private void UpdateFilterSettingsGroupboxValues()
+        {
+            var values = this._applicationViewModel.FilterSettingsViewModel;
+
+            this.textbox_AmountOfRecordsToDisplay.Text = values.AmountOfRecordsToDisplay.ToString();
+        }
+
+        private void button_ResetFilterSettingsToDefault_Click(object sender, RoutedEventArgs e)
+        {
+            this.textbox_AmountOfRecordsToDisplay.Text = DefaultFilterSettings.AmountOfRecordsToDisplay.ToString();
         }
     }
 }

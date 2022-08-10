@@ -1,4 +1,7 @@
-﻿using FJournalLib.Models;
+﻿using FJournalGUI.Models.Filter;
+using FJournalLib;
+using FJournalLib.Models;
+using FJournalLib.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,27 +14,34 @@ namespace FJournalGUI.ViewModels
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
+        private readonly MongoRecordRepository _mongoRecordRepository;
+
         public ApplicationViewModel()
         {
-            this.Records = new ObservableCollection<DBRecordViewModel>()
-            {
-                new DBRecordViewModel(new DBRecord()
-                {
-                    LogSource = FJournalLib.Enums.LogSource.Inner,
-                    CallerFilePath = "file path",
-                    CallerLineNumber = 0,
-                    CallerMemberName = "member name",
-                    LogType = FJournalLib.Enums.LogType.Debug,
-                    Message = "mesaga bez napryaga",
-                    PrivateMemoryUsage = 213,
-                    TimeStamp = DateTime.Now,
-                    TotalCpuUsage = 33
-                })
-            };
+            this._mongoRecordRepository = new MongoRecordRepository();
+
+            this.FilterSettingsViewModel = new FilterSettingsViewModel();
+
+            this.UpdateRecords();
         }
 
         public ObservableCollection<DBRecordViewModel> Records { get; set; }
 
+        public FilterSettingsViewModel FilterSettingsViewModel { get; private set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void UpdateFilterSettingsViewModel(FilterSettingsViewModel filterSettingsViewModel)
+        {
+            this.FilterSettingsViewModel.AmountOfRecordsToDisplay = filterSettingsViewModel.AmountOfRecordsToDisplay;
+
+            this.UpdateRecords();
+        }
+
+        private void UpdateRecords()
+        {
+            var recordsFromDatabase = this._mongoRecordRepository.GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay).Select(x => new DBRecordViewModel(x));
+            this.Records = new ObservableCollection<DBRecordViewModel>(recordsFromDatabase);    
+        }
     }
 }

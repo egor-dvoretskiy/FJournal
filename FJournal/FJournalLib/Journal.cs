@@ -16,6 +16,8 @@ namespace FJournalLib
         private JournalStateLocal localState = JournalStateLocal.Enabled;
         private static JournalStateGlobal globalState = JournalStateGlobal.Enabled;
 
+        private static ApplicationType applicationType = ApplicationType.Undefined;
+
         private readonly IRepository<DBRecord> _recordRepository;
         private readonly PerformanceCounter _totalCpuCounter;
 
@@ -24,6 +26,8 @@ namespace FJournalLib
             this._recordRepository = new MongoRecordRepository();
             this._totalCpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total", true);
         }
+
+        public static void SetApplicationType(ApplicationType type) => applicationType = type;
 
         public static void SetJournalGlobalState(JournalStateGlobal globalStateInput) => globalState = globalStateInput;
 

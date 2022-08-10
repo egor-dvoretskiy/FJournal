@@ -13,14 +13,14 @@ using MongoDB.Bson;
 
 namespace FJournalLib.Repositories
 {
-    internal class MongoRecordRepository : IRepository<DBRecord>
+    public class MongoRecordRepository : IRepository<DBRecord>
     {
         private static readonly string _dbName =                "FJournalDb";
         private static readonly string _connectionString =      "mongodb://localhost:27017/FJounalDb";
 
         private readonly IMongoDatabase _database;
 
-        private string todayCollectionNameCached = string.Empty;
+        private static string todayCollectionNameCached = string.Empty;
 
         public MongoRecordRepository()
         {
@@ -58,6 +58,36 @@ namespace FJournalLib.Repositories
             return record;
         }
 
+        public IEnumerable<DBRecord> GetRecordsByAmount(int amountOfRecordsToGet)
+        {
+            List<DBRecord> records = new List<DBRecord>();
+
+            var collectionNames = this._database.ListCollectionNames().ToList();
+            collectionNames.Reverse();
+
+            foreach(var collectionName in collectionNames)
+            {
+                var collection = this._database.GetCollection<DBRecord>(collectionName);
+
+                if (records.Count < amountOfRecordsToGet)
+                {
+                    int amountOfRecordsToFill = Math.Abs(amountOfRecordsToGet - records.Count);
+                    var amountOfItemsInCollection = collection.EstimatedDocumentCount();
+
+                    if (amountOfRecordsToFill >= amountOfItemsInCollection)
+                    {
+                        records.AddRange(collection.AsQueryable());
+                    }
+                    else
+                    {
+                        records.AddRange(collection.AsQueryable().ToList().TakeLast(amountOfRecordsToFill));
+                    }
+                }
+            }
+
+            return records;
+        }
+
         public void Save()
         {
 
@@ -80,13 +110,13 @@ namespace FJournalLib.Repositories
 
         private string GetCollectionNameForToday()
         {
-            if (!string.IsNullOrEmpty(this.todayCollectionNameCached))
+            if (!string.IsNullOrEmpty(todayCollectionNameCached))
             {
                 var dateTimeNow = DateTime.Now;
 
-                if (Regex.IsMatch(this.todayCollectionNameCached, @"^.+_" + $"{dateTimeNow.Year}{dateTimeNow.Month}{dateTimeNow.Day}" + @"$"))
+                if (Regex.IsMatch(todayCollectionNameCached, @"^.+_" + $"{dateTimeNow.Year}{dateTimeNow.Month}{dateTimeNow.Day}" + @"$"))
                 {
-                    return this.todayCollectionNameCached;
+                    return todayCollectionNameCached;
                 }
             }
 

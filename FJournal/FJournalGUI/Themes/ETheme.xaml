@@ -16,13 +16,17 @@
     
     <!-- Close Round Button Diameter -->
     <system:Double x:Key="CloseRoundButtonDiameter">14</system:Double>
+    
+    <!-- TextBox Input Field Height -->
+    <system:Double x:Key="TextBoxInputFieldHeight">24</system:Double>
         
     <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Styles -->
     <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
     <!-- Close Round Button -->
-    <Style TargetType="Button" x:Key="CloseRoundButton" >
+    <Style TargetType="Button" 
+           x:Key="CloseRoundButton" >
         <Setter Property="TextOptions.TextHintingMode" 
                 Value="Animated" />
         <Setter Property="Width" 
@@ -68,4 +72,25 @@
         </Style.Triggers>
     </Style>
 
+    <!-- TextBox Input Field -->
+    <Style TargetType="TextBox" 
+           x:Key="TextBoxInputField">
+        <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center"/>
+        <Setter Property="Foreground"
+                Value="wheat"/>
+        <Setter Property="Height"
+                Value="{StaticResource TextBoxInputFieldHeight}"/>
+        <Setter Property="Background"
+                Value="#FF343434"/>
+        <Setter Property="Margin"
+                Value="5,0,5,0"/>
+        <Setter Property="Padding"
+                Value="4,2,4,2"/>
+        <Setter Property="SelectionBrush"
+                Value="Wheat"/>
+    </Style>
+    
 </ResourceDictionary>

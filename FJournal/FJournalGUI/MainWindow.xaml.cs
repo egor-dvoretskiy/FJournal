@@ -27,6 +27,9 @@ namespace FJournalGUI
     public partial class MainWindow : Window
     {
         private readonly ApplicationViewModel _applicationViewModel;
+        private double gridCalendarHeightVisible = 0;
+
+        // TODO STATE BAR
 
         public MainWindow()
         {
@@ -34,6 +37,9 @@ namespace FJournalGUI
 
             this._applicationViewModel = new ApplicationViewModel();
             this.DataContext = this._applicationViewModel;
+
+            this.gridCalendarHeightVisible = this.grid_Calendar.Height;
+            this.grid_Calendar.Height = 0;
 
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
 
@@ -68,6 +74,13 @@ namespace FJournalGUI
             if (isValidCalculatedAmountOfRecordsToDisplay)
                 filterSettingsViewModel.AmountOfRecordsToDisplay = amountOfRecordsToDisplay;
 
+            var selectedDates = this.calendar_DateFilter.SelectedDates;
+            if (selectedDates != null)
+            {
+                filterSettingsViewModel.DateTimes = selectedDates;
+            }
+            filterSettingsViewModel.MessageSpan = this.textbox_MessageSpan.Text;
+
             this._applicationViewModel.UpdateFilterSettingsViewModel(filterSettingsViewModel);
             this.UpdateFilterSettingsGroupboxValues();
 
@@ -84,6 +97,23 @@ namespace FJournalGUI
         private void button_ResetFilterSettingsToDefault_Click(object sender, RoutedEventArgs e)
         {
             this.textbox_AmountOfRecordsToDisplay.Text = DefaultFilterSettings.AmountOfRecordsToDisplay.ToString();
+        }
+
+        private void button_ChooseDate_Click(object sender, RoutedEventArgs e)
+        {
+            switch (this.grid_Calendar.Visibility)
+            {
+                case Visibility.Visible:
+                    this.grid_Calendar.Height = 0;
+                    this.grid_Calendar.Visibility = Visibility.Hidden;
+                    break;
+                case Visibility.Hidden:
+                    this.grid_Calendar.Height = this.gridCalendarHeightVisible;
+                    this.grid_Calendar.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

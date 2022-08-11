@@ -42,7 +42,7 @@ namespace FJournalGUI.ViewModels
             }
         }
 
-        public string? Message
+        public string Message
         {
             get
             {

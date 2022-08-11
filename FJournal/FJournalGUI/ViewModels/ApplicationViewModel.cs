@@ -9,12 +9,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FJournalLib.Interfaces;
 
 namespace FJournalGUI.ViewModels
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
-        private readonly MongoRecordRepository _mongoRecordRepository;
+        private readonly IRepository<DBRecord> _mongoRecordRepository;
+
+        // TODO CACHING RECORDS
 
         public ApplicationViewModel()
         {
@@ -25,7 +28,9 @@ namespace FJournalGUI.ViewModels
             this.UpdateRecords();
         }
 
-        public ObservableCollection<DBRecordViewModel> Records { get; set; }
+        public ObservableCollection<DBRecordViewModel>? Records { get; set; }
+
+        public List<DBRecordViewModel> CachedRecords { get; set; }
 
         public FilterSettingsViewModel FilterSettingsViewModel { get; private set; }
 
@@ -33,14 +38,19 @@ namespace FJournalGUI.ViewModels
 
         public void UpdateFilterSettingsViewModel(FilterSettingsViewModel filterSettingsViewModel)
         {
-            this.FilterSettingsViewModel.AmountOfRecordsToDisplay = filterSettingsViewModel.AmountOfRecordsToDisplay;
-
+            this.FilterSettingsViewModel = filterSettingsViewModel;
             this.UpdateRecords();
         }
 
         private void UpdateRecords()
         {
-            var recordsFromDatabase = this._mongoRecordRepository.GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay).Select(x => new DBRecordViewModel(x));
+            // TODO FILTER CLASS.
+
+            var recordsFromDatabase = this._mongoRecordRepository
+                .GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
+                .Select(x => new DBRecordViewModel(x))
+                .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan));
+
             this.Records = new ObservableCollection<DBRecordViewModel>(recordsFromDatabase);    
         }
     }

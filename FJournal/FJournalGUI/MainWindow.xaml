@@ -15,14 +15,14 @@
         WindowStyle="None"
         AllowsTransparency="True" 
         ResizeMode="CanResize">
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" 
                       CornerRadius="0" 
                       CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
 
-    <Grid Background="{StaticResource ControlBackgroundNormal}">        
+    <Grid Background="{StaticResource ControlBackgroundNormal}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
@@ -57,48 +57,32 @@
                             Click="button_CloseWindow_Click"/>
                 </Grid>
             </Grid>
-        </Grid>        
+        </Grid>
         <Grid Grid.Row="1" 
               x:Name="grid_MainLayout">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="grid_test" 
-                  Grid.Column="0">
-                <!--
-                <DataGrid x:Name="dg_dbRecords" 
-                          MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
-                          IsReadOnly="True"
-                          ItemsSource="{Binding Records}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="TimeStamp" 
-                                            Width="140" 
-                                            Binding="{Binding TimeStamp}"/>
-                        <DataGridTextColumn Header="Source" 
-                                            Binding="{Binding LogSource}"/>                        
-                        <DataGridTextColumn Header="Type" 
-                                            Binding="{Binding LogType}"/>
-                        <DataGridTextColumn Header="Message" 
-                                            Width="140" 
-                                            Binding="{Binding Message}"/>
-                        <DataGridTextColumn Header="CallerMemberName" 
-                                            Binding="{Binding CallerMemberName}"/>
-                        <DataGridTextColumn Header="CallerFilePath" 
-                                            Binding="{Binding CallerFilePath}"/>
-                        <DataGridTextColumn Header="CallerLineNumber" 
-                                            Binding="{Binding CallerLineNumber}"/>
-                        <DataGridTextColumn Header="TotalCpuUsage" 
-                                            Binding="{Binding TotalCpuUsage}"/>
-                        <DataGridTextColumn Header="PrivateMemoryUsage" 
-                                            Binding="{Binding PrivateMemoryUsage}"/>
-                    </DataGrid.Columns>
-                </DataGrid> -->
-                <DataGrid x:Name="dg_dbRecords" 
-                          MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
-                          IsReadOnly="True"
-                          ItemsSource="{Binding Records, Mode=OneWay}"/>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      Background="{StaticResource ControlLightBackground}">
+                    <TextBlock Text="Разделить текстблок на 3+ части."
+                               Style="{StaticResource TextBlockStatusBar}"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <DataGrid x:Name="dg_dbRecords" 
+                              MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding Records, Mode=OneWay}"/>
+                </Grid>
             </Grid>
+                
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
@@ -121,32 +105,67 @@
                                 BorderThickness="0"/>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" 
+                      ScrollViewer.CanContentScroll="True">
                     <GroupBox Header="Filter">
-                        <StackPanel Orientation="Vertical">
-                            <Grid Height="30">
+                        <ScrollViewer>
+                          <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Grid Grid.Column="0">
-                                    <Label Foreground="White" 
-                                           Content="Amount of Records"
-                                           Margin="0,0,0,0"
-                                           Padding="0,0,0,0"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"/>
+                                    <Label Content="Amount of Records"
+                                           Style="{StaticResource LabelFilterCaption}"/>
                                 </Grid>
-                                <Grid Grid.Column="1">                                    
+                                <Grid Grid.Column="1">
                                     <TextBox x:Name="textbox_AmountOfRecordsToDisplay"
                                              Style="{StaticResource TextBoxInputField}"/>
                                 </Grid>
                             </Grid>
-                            <Grid Height="30">
-                                
+                            <Grid Grid.Row="1">
+                                <Button x:Name="button_ChooseDate"
+                                        Content="Choose Date"
+                                        Style="{StaticResource Button}"
+                                        Margin="20,4,20,4"
+                                        Padding="0,0,0,0" 
+                                        Click="button_ChooseDate_Click"
+                                        Foreground="Wheat"/>
                             </Grid>
-                        </StackPanel>
+                            <Grid x:Name="grid_Calendar"
+                                  Visibility="Hidden"
+                                  Grid.Row="2">
+                                <Calendar x:Name="calendar_DateFilter"
+                                          SelectionMode="MultipleRange"
+                                          Style="{StaticResource Calendar}"/>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <Label Style="{StaticResource LabelFilterCaption}"
+                                           Content="Message Span"/>
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <TextBox x:Name="textbox_MessageSpan" 
+                                             Style="{StaticResource TextBoxInputField}"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>   
+                        </ScrollViewer>
+                          
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="2">

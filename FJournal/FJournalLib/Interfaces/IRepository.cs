@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace FJournalLib.Interfaces
 {
-    internal interface IRepository<T> : IDisposable
+    public interface IRepository<T> : IDisposable
         where T : class
     {
         IMongoCollection<T> GetCollectionByName(string collectionName = "");
+
+        IEnumerable<T> GetRecordsByAmount(int amountOfRecordsToGet);
 
         T GetRecord(ObjectId id, string collectionName = "");
 

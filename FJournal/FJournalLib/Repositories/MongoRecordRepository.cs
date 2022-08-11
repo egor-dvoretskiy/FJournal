@@ -74,18 +74,24 @@ namespace FJournalLib.Repositories
                     int amountOfRecordsToFill = Math.Abs(amountOfRecordsToGet - records.Count);
                     var amountOfItemsInCollection = collection.EstimatedDocumentCount();
 
-                    if (amountOfRecordsToFill >= amountOfItemsInCollection)
+                    try
                     {
-                        records.AddRange(collection.AsQueryable());
+                        if (amountOfRecordsToFill >= amountOfItemsInCollection)
+                        {
+                            records.AddRange(collection.AsQueryable());
+                        }
+                        else
+                        {
+                            records.AddRange(collection.AsQueryable().ToList().TakeLast(amountOfRecordsToFill));
+                        }
                     }
-                    else
-                    {
-                        records.AddRange(collection.AsQueryable().ToList().TakeLast(amountOfRecordsToFill));
-                    }
+                    catch (FormatException) {}                    
                 }
             }
 
-            return records;
+            var orderedRecordsByTimeStamp = records.OrderBy(x => x.TimeStamp);
+
+            return orderedRecordsByTimeStamp;
         }
 
         public void Save()

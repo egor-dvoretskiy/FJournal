@@ -256,6 +256,8 @@
                 Value="Center"/>
         <Setter Property="FontSize"
                 Value="10"/>
+        <Setter Property="TextWrapping"
+                Value="NoWrap"/>
     </Style>
 
     <!-- Label Filter Caption -->
@@ -266,9 +268,9 @@
         <Setter Property="Margin"
                 Value="0,0,0,0"/>
         <Setter Property="Padding"
-                Value="0,0,0,0"/>
+                Value="0,0,5,0"/>
         <Setter Property="HorizontalContentAlignment"
-                Value="Center"/>
+                Value="Right"/>
         <Setter Property="VerticalContentAlignment"
                 Value="Center"/>
     </Style>

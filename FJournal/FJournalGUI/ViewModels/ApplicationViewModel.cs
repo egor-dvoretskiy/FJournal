@@ -24,11 +24,12 @@ namespace FJournalGUI.ViewModels
             this._mongoRecordRepository = new MongoRecordRepository();
 
             this.FilterSettingsViewModel = new FilterSettingsViewModel();
+            this.CachedRecords = new List<DBRecordViewModel>();
 
             this.UpdateRecords();
         }
 
-        public ObservableCollection<DBRecordViewModel>? Records { get; set; }
+        public ObservableCollection<DBRecordViewModel> Records { get; set; }
 
         public List<DBRecordViewModel> CachedRecords { get; set; }
 
@@ -45,6 +46,22 @@ namespace FJournalGUI.ViewModels
         private void UpdateRecords()
         {
             // TODO FILTER CLASS.
+
+            IEnumerable<DBRecordViewModel> records;
+
+            if (this.CachedRecords == null)
+            {
+                this.CachedRecords = new List<DBRecordViewModel>();
+            }
+
+            if (this.FilterSettingsViewModel.AmountOfRecordsToDisplay <= this.CachedRecords.Count)
+            {
+                records = this.CachedRecords.TakeLast(this.FilterSettingsViewModel.AmountOfRecordsToDisplay);
+            }
+            else
+            {
+
+            }
 
             var recordsFromDatabase = this._mongoRecordRepository
                 .GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay)

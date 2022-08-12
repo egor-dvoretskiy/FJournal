@@ -82,7 +82,7 @@ namespace FJournalLib.Repositories
                         }
                         else
                         {
-                            records.AddRange(collection.AsQueryable().ToList().TakeLast(amountOfRecordsToFill));
+                            records.AddRange(collection.AsQueryable().ToEnumerable().TakeLast(amountOfRecordsToFill));
                         }
                     }
                     catch (FormatException) {}                    

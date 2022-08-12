@@ -29,8 +29,6 @@ namespace FJournalGUI
         private readonly ApplicationViewModel _applicationViewModel;
         private double gridCalendarHeightVisible = 0;
 
-        // TODO STATE BAR
-
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +38,7 @@ namespace FJournalGUI
 
             this.gridCalendarHeightVisible = this.grid_Calendar.Height;
             this.grid_Calendar.Height = 0;
+            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
 
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
 
@@ -85,6 +84,7 @@ namespace FJournalGUI
             this.UpdateFilterSettingsGroupboxValues();
 
             this.dg_dbRecords.ItemsSource = this._applicationViewModel.Records;
+            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
         }
 
         private void UpdateFilterSettingsGroupboxValues()

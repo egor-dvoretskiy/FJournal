@@ -72,8 +72,33 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"
                       Background="{StaticResource ControlLightBackground}">
-                    <TextBlock Text="Разделить текстблок на 3+ части."
-                               Style="{StaticResource TextBlockStatusBar}"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <TextBlock Text="Current amount of items in datagrid:"
+                                       Style="{StaticResource TextBlockStatusBar}"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock x:Name="textblock_AmountOfItemsInRecords" 
+                                       Style="{StaticResource TextBlockStatusBar}"
+                                       HorizontalAlignment="Center"
+                                       Foreground="White"/>
+                        </Grid>
+                    </Grid>
+                    <Border BorderThickness="1"
+                            BorderBrush="Gray"/>
+                    <Grid Grid.Column="1">
+                        <TextBlock Style="{StaticResource TextBlockStatusBar}"/>
+                        <Border BorderThickness="1"
+                            BorderBrush="Gray"/>
+                    </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
                     <DataGrid x:Name="dg_dbRecords" 

@@ -27,7 +27,6 @@ namespace FJournalGUI
     public partial class MainWindow : Window
     {
         private readonly ApplicationViewModel _applicationViewModel;
-        private double gridCalendarHeightVisible = 0;
 
         public MainWindow()
         {
@@ -36,8 +35,6 @@ namespace FJournalGUI
             this._applicationViewModel = new ApplicationViewModel();
             this.DataContext = this._applicationViewModel;
 
-            this.gridCalendarHeightVisible = this.grid_Calendar.Height;
-            this.grid_Calendar.Height = 0;
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
 
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
@@ -104,16 +101,17 @@ namespace FJournalGUI
             switch (this.grid_Calendar.Visibility)
             {
                 case Visibility.Visible:
-                    this.grid_Calendar.Height = 0;
-                    this.grid_Calendar.Visibility = Visibility.Hidden;
+                    this.grid_Calendar.Visibility = Visibility.Collapsed;
                     break;
-                case Visibility.Hidden:
-                    this.grid_Calendar.Height = this.gridCalendarHeightVisible;
+                case Visibility.Collapsed:
+                default:
                     this.grid_Calendar.Visibility = Visibility.Visible;
                     break;
-                default:
-                    break;
             }
+        }
+
+        private void checkbox_isLiveWindowVisible_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

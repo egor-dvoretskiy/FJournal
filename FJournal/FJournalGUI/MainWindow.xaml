@@ -63,150 +63,184 @@
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      Background="{StaticResource ControlLightBackground}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="6*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <TextBlock Text="Current amount of items in datagrid:"
-                                       Style="{StaticResource TextBlockStatusBar}"/>
-                        </Grid>
-                        <Grid Grid.Column="1">
-                            <TextBlock x:Name="textblock_AmountOfItemsInRecords" 
-                                       Style="{StaticResource TextBlockStatusBar}"
-                                       HorizontalAlignment="Center"
-                                       Foreground="White"/>
-                        </Grid>
-                    </Grid>
-                    <Border BorderThickness="1"
-                            BorderBrush="Gray"/>
-                    <Grid Grid.Column="1">
-                        <TextBlock Style="{StaticResource TextBlockStatusBar}"/>
-                        <Border BorderThickness="1"
-                            BorderBrush="Gray"/>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="1">
+                <Grid x:Name="grid_DataGridRecords" 
+                      Grid.Row="0" 
+                      VerticalAlignment="Stretch">
                     <DataGrid x:Name="dg_dbRecords" 
                               MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Records, Mode=OneWay}"/>
+                              ItemsSource="{Binding Records, Mode=OneWay}"
+                              Height="Auto"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <StatusBar Padding="0,0,0,0"
+                               Margin="0,0,0,0"
+                               >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="260"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <TextBlock Text="Current amount of items in datagrid:"
+                                    Style="{StaticResource TextBlockStatusBar}"/>
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <TextBlock x:Name="textblock_AmountOfItemsInRecords" 
+                                               Style="{StaticResource TextBlockStatusBar}"
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </StatusBar>
                 </Grid>
             </Grid>
                 
             <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <StackPanel>
-                        <Button Content="Analyze scheme" 
-                                Style="{StaticResource Button}" 
-                                Height="20" 
-                                BorderThickness="0"/>
-                        <Button Content="Export data" 
-                                Style="{StaticResource Button}"
-                                Height="20" 
-                                BorderThickness="0"/>
-                        <Button Content="Report a bug" 
-                                Style="{StaticResource Button}" 
-                                Height="20" 
-                                BorderThickness="0"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1" 
-                      ScrollViewer.CanContentScroll="True">
-                    <GroupBox Header="Filter">
-                        <ScrollViewer>
-                          <Grid>
+                <TabControl TabStripPlacement="Right">
+                    <TabItem Header="Analyze Scheme"
+                             IsEnabled="False"/>
+                    <TabItem Header="Export Data"
+                             IsEnabled="False"/>
+                    <TabItem Header="Report a Bug">
+                        <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
-                            
                             <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Grid Grid.Column="0">
-                                    <Label Content="Amount of Records"
-                                           Style="{StaticResource LabelFilterCaption}"/>
-                                </Grid>
-                                <Grid Grid.Column="1">
-                                    <TextBox x:Name="textbox_AmountOfRecordsToDisplay"
-                                             Style="{StaticResource TextBoxInputField}"/>
-                                </Grid>
+                                <RichTextBox x:Name="richtextbox_BugReport"
+                                             Margin="20" ScrollViewer.CanContentScroll="True"/>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <Button x:Name="button_ChooseDate"
-                                        Content="Choose Date"
+                                <Button x:Name="button_ApproveBugReport"
                                         Style="{StaticResource Button}"
-                                        Margin="20,4,20,4"
-                                        Padding="0,0,0,0" 
-                                        Click="button_ChooseDate_Click"
-                                        Foreground="Wheat"/>
+                                        Content="Approve"
+                                        Margin="45,0,45,0"/>
                             </Grid>
-                            <Grid x:Name="grid_Calendar"
-                                  Visibility="Hidden"
-                                  Grid.Row="2">
-                                <Calendar x:Name="calendar_DateFilter"
-                                          SelectionMode="MultipleRange"
-                                          Style="{StaticResource Calendar}"/>
-                            </Grid>
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                        </Grid>                        
+                    </TabItem>
+                    <TabItem Header="Filter" 
+                             IsSelected="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <ScrollViewer>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                        </Grid.RowDefinitions>
 
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0">
+                                                <Label Content="Amount of Records"
+                                                       Style="{StaticResource LabelFilterCaption}"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <TextBox x:Name="textbox_AmountOfRecordsToDisplay"
+                                                         Style="{StaticResource TextBoxInputField}"/>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Button x:Name="button_ChooseDate"
+                                                    Content="Choose Date"
+                                                    Style="{StaticResource Button}"
+                                                    Margin="20,4,20,4"
+                                                    Padding="0,0,0,0" 
+                                                    Click="button_ChooseDate_Click"
+                                                    Foreground="Wheat"/>
+                                        </Grid>
+                                        <Grid x:Name="grid_Calendar"
+                                              Visibility="Collapsed"
+                                              Grid.Row="2">
+                                            <Calendar x:Name="calendar_DateFilter"
+                                                      SelectionMode="MultipleRange"
+                                                      Style="{StaticResource Calendar}"/>
+                                        </Grid>
+                                        <Grid Grid.Row="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0">
+                                                <Label Style="{StaticResource LabelFilterCaption}"
+                                                       Content="Message Span"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <TextBox x:Name="textbox_MessageSpan" 
+                                                         Style="{StaticResource TextBoxInputField}"/>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <Label Content="Live Window"
+                                                       Style="{StaticResource LabelFilterCaption}"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <CheckBox x:Name="checkbox_isLiveWindowVisible" 
+                                                          IsChecked="False"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" 
+                                                          Click="checkbox_isLiveWindowVisible_Click"
+                                                          Padding="0"
+                                                          Margin="0"
+                                                          IsEnabled="False"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
-                                    <Label Style="{StaticResource LabelFilterCaption}"
-                                           Content="Message Span"/>
+                                    <Button x:Name="button_ApplyFilterSettings" 
+                                            Content="Apply" 
+                                            Style="{StaticResource Button}" 
+                                            Click="button_ApplyFilterSettings_Click"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
-                                    <TextBox x:Name="textbox_MessageSpan" 
-                                             Style="{StaticResource TextBoxInputField}"/>
+                                    <Button x:Name="button_ResetFilterSettingsToDefault" 
+                                            Content="Reset" 
+                                            Style="{StaticResource Button}" 
+                                            Click="button_ResetFilterSettingsToDefault_Click"/>
                                 </Grid>
                             </Grid>
-                        </Grid>   
-                        </ScrollViewer>
-                          
-                    </GroupBox>
-                </Grid>
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition Width="0.5*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Button x:Name="button_ApplyFilterSettings" Content="Apply" 
-                                Style="{StaticResource Button}" Click="button_ApplyFilterSettings_Click"/>
-                    </Grid>
-                    <Grid Grid.Column="1">
-                        <Button x:Name="button_ResetFilterSettingsToDefault" Content="Reset" 
-                                Style="{StaticResource Button}" Click="button_ResetFilterSettingsToDefault_Click"/>
-                    </Grid>
-                </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Grid>
     </Grid>

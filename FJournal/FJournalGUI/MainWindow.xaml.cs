@@ -113,5 +113,55 @@ namespace FJournalGUI
         private void checkbox_isLiveWindowVisible_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private int GetIndexForDatagridByHeader(string? columnName, DataGrid dataGrid)
+        {
+            if (!string.IsNullOrEmpty(columnName))
+            {
+                foreach (var item in dataGrid.Columns)
+                {
+                    if (item is null)
+                        continue;
+
+                    if ((item.Header as string) == columnName)
+                    {
+                        return item.DisplayIndex;
+                    }
+                }
+            }           
+
+            return -1;
+        }
+
+        private void ProcessMenuItemVisibility(MenuItem? menuItem)
+        {
+            if (menuItem is null)
+                return;
+
+            int columnIndex = this.GetIndexForDatagridByHeader(menuItem.Header as string, this.dg_dbRecords);
+
+            if (columnIndex == -1)
+                return;
+
+            this.dg_dbRecords.Columns[columnIndex].Visibility = menuItem.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void TimeStampMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void LogSourceMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void LogTypeMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void MessageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void CallerMemberNameMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void CallerFilePathMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void CallerLineNumberMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void TotalCpuUsageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void PrivateMemoryUsageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
     }
 }

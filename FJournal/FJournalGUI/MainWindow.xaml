@@ -77,7 +77,48 @@
                               MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
                               IsReadOnly="True"
                               ItemsSource="{Binding Records, Mode=OneWay}"
-                              Height="Auto"/>
+                              Height="Auto">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu x:Name="contextmenu_RecordsDataGridContextMenu">
+                                <MenuItem Header="TimeStamp"
+                                          Click="TimeStampMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="LogSource"
+                                          Click="LogSourceMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="LogType"
+                                          Click="LogTypeMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="Message"
+                                          Click="MessageMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="CallerMemberName"
+                                          Click="CallerMemberNameMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="CallerFilePath"
+                                          Click="CallerFilePathMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="CallerLineNumber"
+                                          Click="CallerLineNumberMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="TotalCpuUsage"
+                                          Click="TotalCpuUsageMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                                <MenuItem Header="PrivateMemoryUsage"
+                                          Click="PrivateMemoryUsageMenuItem_Click"
+                                          IsCheckable="True"
+                                          IsChecked="True"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </Grid>
                 <Grid Grid.Row="1">
                     <StatusBar Padding="0,0,0,0"

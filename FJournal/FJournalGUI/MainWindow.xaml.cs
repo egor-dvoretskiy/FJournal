@@ -28,6 +28,8 @@ namespace FJournalGUI
     {
         private readonly ApplicationViewModel _applicationViewModel;
 
+        /// TODO SCROLLING TO THE BOTTOM
+
         public MainWindow()
         {
             InitializeComponent();
@@ -82,6 +84,7 @@ namespace FJournalGUI
 
             this.dg_dbRecords.ItemsSource = this._applicationViewModel.Records;
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
+            this.textblock_elapsed.Text = this._applicationViewModel.Elapsed.ToString();
         }
 
         private void UpdateFilterSettingsGroupboxValues()

@@ -10,14 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FJournalLib.Interfaces;
+using System.Diagnostics;
 
 namespace FJournalGUI.ViewModels
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private readonly IRepository<DBRecord> _mongoRecordRepository;
-
-        // TODO CACHING RECORDS
 
         public ApplicationViewModel()
         {
@@ -31,6 +30,8 @@ namespace FJournalGUI.ViewModels
         public ObservableCollection<DBRecordViewModel> Records { get; set; }
 
         public FilterSettingsViewModel FilterSettingsViewModel { get; private set; }
+
+        public double Elapsed { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -46,6 +47,8 @@ namespace FJournalGUI.ViewModels
 
             IEnumerable<DBRecordViewModel> records;
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             if (this.FilterSettingsViewModel.DateTimes.Count() > 0)
             {
                 records = this._mongoRecordRepository
@@ -60,6 +63,9 @@ namespace FJournalGUI.ViewModels
                     .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan))
                     .Select(x => new DBRecordViewModel(x));
             }
+
+            sw.Stop();
+            this.Elapsed = sw.Elapsed.TotalMilliseconds;
 
             this.Records = new ObservableCollection<DBRecordViewModel>(records);    
         }

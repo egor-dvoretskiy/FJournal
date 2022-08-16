@@ -123,6 +123,7 @@ namespace FJournalLib.Repositories
             }
 
             string todayCollectionName = _dbName.FormTodayCollectionName();
+            todayCollectionNameCached = todayCollectionName;
 
             return todayCollectionName;
         }

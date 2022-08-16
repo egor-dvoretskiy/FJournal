@@ -13,6 +13,8 @@ namespace FJournalLib.Interfaces
     {
         IMongoCollection<T> GetCollectionByName(string collectionName = "");
 
+        IEnumerable<T> GetRecordsByDateCollection(List<DateTime> collection, int amountOfRecordsToGet);
+
         IEnumerable<T> GetRecordsByAmount(int amountOfRecordsToGet);
 
         T GetRecord(ObjectId id, string collectionName = "");

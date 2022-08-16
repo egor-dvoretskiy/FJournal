@@ -94,6 +94,7 @@ namespace FJournalGUI
         private void button_ResetFilterSettingsToDefault_Click(object sender, RoutedEventArgs e)
         {
             this.textbox_AmountOfRecordsToDisplay.Text = DefaultFilterSettings.AmountOfRecordsToDisplay.ToString();
+            this.calendar_DateFilter.SelectedDates.Clear();
         }
 
         private void button_ChooseDate_Click(object sender, RoutedEventArgs e)

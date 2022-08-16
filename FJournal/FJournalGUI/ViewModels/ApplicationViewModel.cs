@@ -44,28 +44,24 @@ namespace FJournalGUI.ViewModels
         {
             // TODO FILTER CLASS.
 
-            /*IEnumerable<DBRecordViewModel> records;
+            IEnumerable<DBRecordViewModel> records;
 
-            if (this.CachedRecords == null)
+            if (this.FilterSettingsViewModel.DateTimes.Count() > 0)
             {
-                this.CachedRecords = new List<DBRecordViewModel>();
-            }
-
-            if (this.FilterSettingsViewModel.AmountOfRecordsToDisplay <= this.CachedRecords.Count)
-            {
-                records = this.CachedRecords.TakeLast(this.FilterSettingsViewModel.AmountOfRecordsToDisplay);
+                records = this._mongoRecordRepository
+                    .GetRecordsByDateCollection(this.FilterSettingsViewModel.DateTimes.ToList(), this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
+                    .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan))
+                    .Select(x => new DBRecordViewModel(x));
             }
             else
             {
+                records = this._mongoRecordRepository
+                    .GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
+                    .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan))
+                    .Select(x => new DBRecordViewModel(x));
+            }
 
-            }*/
-
-            var recordsFromDatabase = this._mongoRecordRepository
-                .GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
-                .Select(x => new DBRecordViewModel(x))
-                .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan));
-
-            this.Records = new ObservableCollection<DBRecordViewModel>(recordsFromDatabase);    
+            this.Records = new ObservableCollection<DBRecordViewModel>(records);    
         }
     }
 }

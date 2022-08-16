@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
+using FJournalLib.Extensions;
 
 namespace FJournalLib.Repositories
 {
@@ -47,15 +48,35 @@ namespace FJournalLib.Repositories
 
         }
 
-        public DBRecord GetRecord(ObjectId id, string collectionName = "")
+        public DBRecord GetRecord(ObjectId id, string collectionName = "") 
         {
             string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
 
-            var collection = this._database.GetCollection<DBRecord>(localCollectionName);
+            var collection = this.GetCollectionByName(localCollectionName);
             var record = collection.AsQueryable()
                                     .SingleOrDefault(x => x.Id == id);
 
             return record;
+        }
+
+        public IEnumerable<DBRecord> GetRecordsByDateCollection(List<DateTime> collection, int amountOfRecordsToGet)
+        {
+            var collectionNames = this._database.ListCollectionNames().ToList();
+            List<string> filteredCollectionNames = new List<string>();
+
+            foreach (var collectionName in collectionNames)
+            {
+                var amountOfDaysInCollection = collection.Where(x => collectionName.Contains(x.ToString("yyyyMMdd"))).Count();
+
+                if (amountOfDaysInCollection > 0)
+                {
+                    filteredCollectionNames.Add(collectionName);
+                }
+            }
+
+            filteredCollectionNames.Reverse();
+            
+            return GetRecordsFromCollection(filteredCollectionNames, amountOfRecordsToGet);
         }
 
         public IEnumerable<DBRecord> GetRecordsByAmount(int amountOfRecordsToGet)
@@ -65,9 +86,56 @@ namespace FJournalLib.Repositories
             var collectionNames = this._database.ListCollectionNames().ToList();
             collectionNames.Reverse();
 
-            foreach(var collectionName in collectionNames)
+            return GetRecordsFromCollection(collectionNames, amountOfRecordsToGet);
+        }
+
+        public void Save()
+        {
+
+        }
+
+        public void Update(DBRecord record)
+        {
+            var collection = this._database.GetCollection<DBRecord>(this.GetCollectionNameForToday());
+            collection.ReplaceOne(x => x.Id == record.Id, record);
+        }
+
+        public IMongoCollection<DBRecord> GetCollectionByName(string collectionName = "") => this.Memoized(collectionName, x =>
+        {
+            string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
+
+            var collection = this._database.GetCollection<DBRecord>(localCollectionName);
+
+            return collection;
+        });
+
+        private string GetCollectionNameForToday()
+        {
+            if (!string.IsNullOrEmpty(todayCollectionNameCached))
             {
-                var collection = this._database.GetCollection<DBRecord>(collectionName);
+                var dateTimeNow = DateTime.Now;
+
+                if (Regex.IsMatch(todayCollectionNameCached, @"^.+_" + $"{dateTimeNow.Year}{dateTimeNow.Month}{dateTimeNow.Day}" + @"$"))
+                {
+                    return todayCollectionNameCached;
+                }
+            }
+
+            /// TODO MAKE CLASS FOR NAMING
+
+            string todayDateFormatted = DateTime.Now.ToString("yyyyMMdd");
+            string todayCollectionName = string.Concat(_dbName, '_', todayDateFormatted);
+
+            return todayCollectionName;
+        }
+
+        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet)
+        {
+            List<DBRecord> records = new List<DBRecord>();
+
+            foreach (var collectionName in collectionNames)
+            {
+                var collection = this.GetCollectionByName(collectionName);
 
                 if (records.Count < amountOfRecordsToGet)
                 {
@@ -85,51 +153,13 @@ namespace FJournalLib.Repositories
                             records.AddRange(collection.AsQueryable().ToEnumerable().TakeLast(amountOfRecordsToFill));
                         }
                     }
-                    catch (FormatException) {}                    
+                    catch (FormatException) { }
                 }
             }
 
             var orderedRecordsByTimeStamp = records.OrderBy(x => x.TimeStamp);
 
             return orderedRecordsByTimeStamp;
-        }
-
-        public void Save()
-        {
-
-        }
-
-        public void Update(DBRecord record)
-        {
-            var collection = this._database.GetCollection<DBRecord>(this.GetCollectionNameForToday());
-            collection.ReplaceOne(x => x.Id == record.Id, record);
-        }
-
-        public IMongoCollection<DBRecord> GetCollectionByName(string collectionName = "")
-        {
-            string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
-
-            var collection = this._database.GetCollection<DBRecord>(localCollectionName);
-
-            return collection;
-        }
-
-        private string GetCollectionNameForToday()
-        {
-            if (!string.IsNullOrEmpty(todayCollectionNameCached))
-            {
-                var dateTimeNow = DateTime.Now;
-
-                if (Regex.IsMatch(todayCollectionNameCached, @"^.+_" + $"{dateTimeNow.Year}{dateTimeNow.Month}{dateTimeNow.Day}" + @"$"))
-                {
-                    return todayCollectionNameCached;
-                }
-            }
-
-            string todayDateFormatted = DateTime.Now.ToString("yyyyMMdd");
-            string todayCollectionName = string.Concat(_dbName, '_', todayDateFormatted);
-
-            return todayCollectionName;
         }
     }
 }

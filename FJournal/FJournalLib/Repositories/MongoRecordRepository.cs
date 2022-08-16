@@ -11,6 +11,7 @@ using MongoDB.Driver.Linq;
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using FJournalLib.Extensions;
+using System.Diagnostics;
 
 namespace FJournalLib.Repositories
 {
@@ -81,12 +82,14 @@ namespace FJournalLib.Repositories
 
         public IEnumerable<DBRecord> GetRecordsByAmount(int amountOfRecordsToGet)
         {
-            List<DBRecord> records = new List<DBRecord>();
+            IEnumerable<DBRecord> records;
 
             var collectionNames = this._database.ListCollectionNames().ToList();
             collectionNames.Reverse();
 
-            return GetRecordsFromCollection(collectionNames, amountOfRecordsToGet);
+            records = this.GetRecordsFromCollection(collectionNames, amountOfRecordsToGet);
+
+            return records;
         }
 
         public void Save()
@@ -113,23 +116,18 @@ namespace FJournalLib.Repositories
         {
             if (!string.IsNullOrEmpty(todayCollectionNameCached))
             {
-                var dateTimeNow = DateTime.Now;
-
-                if (Regex.IsMatch(todayCollectionNameCached, @"^.+_" + $"{dateTimeNow.Year}{dateTimeNow.Month}{dateTimeNow.Day}" + @"$"))
+                if (todayCollectionNameCached.IsToday())
                 {
                     return todayCollectionNameCached;
                 }
             }
 
-            /// TODO MAKE CLASS FOR NAMING
-
-            string todayDateFormatted = DateTime.Now.ToString("yyyyMMdd");
-            string todayCollectionName = string.Concat(_dbName, '_', todayDateFormatted);
+            string todayCollectionName = _dbName.FormTodayCollectionName();
 
             return todayCollectionName;
         }
 
-        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet)
+        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet) => this.Memoized((string.Join(".", collectionNames), amountOfRecordsToGet), x =>
         {
             List<DBRecord> records = new List<DBRecord>();
 
@@ -146,11 +144,13 @@ namespace FJournalLib.Repositories
                     {
                         if (amountOfRecordsToFill >= amountOfItemsInCollection)
                         {
-                            records.AddRange(collection.AsQueryable());
+                            records.AddRange(collection.Find(new BsonDocument()).ToEnumerable());
                         }
                         else
                         {
-                            records.AddRange(collection.AsQueryable().ToEnumerable().TakeLast(amountOfRecordsToFill));
+                            int skipAmount = (int)(amountOfItemsInCollection - amountOfRecordsToFill);
+
+                            return collection.Find(new BsonDocument()).Skip(skipAmount).ToEnumerable().OrderBy(x => x.TimeStamp);
                         }
                     }
                     catch (FormatException) { }
@@ -160,6 +160,6 @@ namespace FJournalLib.Repositories
             var orderedRecordsByTimeStamp = records.OrderBy(x => x.TimeStamp);
 
             return orderedRecordsByTimeStamp;
-        }
+        });
     }
 }

@@ -8,6 +8,8 @@ namespace FJournalGUI.Models.Filter
 {
     public class DefaultFilterSettings
     {
-        public const int AmountOfRecordsToDisplay = 333;
+        public const int AmountOfRecordsToDisplay = 200;
+
+        public const int AmountOfLiveRecordsToDisplay = 24;
     }
 }

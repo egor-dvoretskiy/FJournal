@@ -1,4 +1,5 @@
 ﻿using FJournalGUI.ViewModels;
+using FJournalGUI.Views;
 using FJournalLib;
 using FJournalLib.Repositories;
 using FJournalLib.Enums;
@@ -18,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FJournalGUI.Models.Filter;
+using FJournalGUI.Models;
 
 namespace FJournalGUI
 {
@@ -34,14 +36,25 @@ namespace FJournalGUI
         {
             InitializeComponent();
 
+            // inner initialization
             this._applicationViewModel = new ApplicationViewModel();
             this.DataContext = this._applicationViewModel;
+            // -
 
+            // update layout
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
-
-            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
-
+            this.UpdateLiveWindowVisibility();
             this.UpdateFilterSettingsGroupboxValues();
+            // -
+
+            // events
+            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
+            /*this._applicationViewModel.LiveRecords.CollectionChanged += LiveRecords_CollectionChanged;*/
+            // -
+        }
+
+        private void LiveRecords_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
         }
 
         private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -51,10 +64,10 @@ namespace FJournalGUI
             if (dg_dbRecords.SelectedItem == null)
                 return;
 
-            var selectedRow = dg_dbRecords.SelectedItem as DBRecordViewModel;
+            var selectedRow = dg_dbRecords.SelectedItem as DBRecordModel;
 
-            if (selectedRow != null)
-                MessageBox.Show($"You've picked the wrong house, fool. Message: {selectedRow.Message}");
+            DetailsView detailsViewWindow = new DetailsView(selectedRow, this.Title);
+            detailsViewWindow.Show();
 
             dg_dbRecords.UnselectAll();
         }
@@ -66,30 +79,41 @@ namespace FJournalGUI
 
         private void button_ApplyFilterSettings_Click(object sender, RoutedEventArgs e)
         {
-            FilterSettingsViewModel filterSettingsViewModel = new FilterSettingsViewModel();
+            FilterSettingModel filterSettingsViewModel = new FilterSettingModel();
 
+            // get amount of items from ui
             bool isValidCalculatedAmountOfRecordsToDisplay = int.TryParse(textbox_AmountOfRecordsToDisplay.Text, out int amountOfRecordsToDisplay);
             if (isValidCalculatedAmountOfRecordsToDisplay)
                 filterSettingsViewModel.AmountOfRecordsToDisplay = amountOfRecordsToDisplay;
+            // -
 
+            // get selected dates from calendar
             var selectedDates = this.calendar_DateFilter.SelectedDates;
             if (selectedDates != null)
             {
                 filterSettingsViewModel.DateTimes = selectedDates;
             }
-            filterSettingsViewModel.MessageSpan = this.textbox_MessageSpan.Text;
+            // -
 
+            // get message span to search in messages
+            filterSettingsViewModel.MessageSpan = this.textbox_MessageSpan.Text;
+            // -
+
+            // update filter in data context
             this._applicationViewModel.UpdateFilterSettingsViewModel(filterSettingsViewModel);
             this.UpdateFilterSettingsGroupboxValues();
+            // -
 
+            // updating layout
             this.dg_dbRecords.ItemsSource = this._applicationViewModel.Records;
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
             this.textblock_elapsed.Text = this._applicationViewModel.Elapsed.ToString();
+            // -
         }
 
         private void UpdateFilterSettingsGroupboxValues()
         {
-            var values = this._applicationViewModel.FilterSettingsViewModel;
+            var values = this._applicationViewModel.FilterSettingsModel;
 
             this.textbox_AmountOfRecordsToDisplay.Text = values.AmountOfRecordsToDisplay.ToString();
         }
@@ -116,6 +140,7 @@ namespace FJournalGUI
 
         private void checkbox_isLiveWindowVisible_Click(object sender, RoutedEventArgs e)
         {
+            this.UpdateLiveWindowVisibility();
         }
 
         private int GetIndexForDatagridByHeader(string? columnName, DataGrid dataGrid)
@@ -148,6 +173,21 @@ namespace FJournalGUI
                 return;
 
             this.dg_dbRecords.Columns[columnIndex].Visibility = menuItem.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void UpdateLiveWindowVisibility()
+        {
+            /*if (this.checkbox_isLiveWindowVisible.IsChecked is null)
+                return;
+
+            if (this.checkbox_isLiveWindowVisible.IsChecked.Value)
+            {
+                this.grid_liveWindow.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.grid_liveWindow.Visibility = Visibility.Collapsed;
+            }*/
         }
 
         private void TimeStampMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);

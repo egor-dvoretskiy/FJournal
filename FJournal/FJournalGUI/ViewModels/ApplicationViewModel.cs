@@ -1,5 +1,4 @@
-﻿using FJournalGUI.Models.Filter;
-using FJournalLib;
+﻿using FJournalLib;
 using FJournalLib.Models;
 using FJournalLib.Repositories;
 using System;
@@ -11,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FJournalLib.Interfaces;
 using System.Diagnostics;
+using FJournalGUI.Models;
+using FJournalGUI.Models.Filter;
 
 namespace FJournalGUI.ViewModels
 {
@@ -21,20 +22,22 @@ namespace FJournalGUI.ViewModels
         public ApplicationViewModel()
         {
             this._mongoRecordRepository = new MongoRecordRepository();
-            this.FilterSettingsViewModel = new FilterSettingsViewModel();
+            this.FilterSettingsModel = new FilterSettingModel();
         }
 
-        public ObservableCollection<DBRecordViewModel> Records { get; set; }
+        public ObservableCollection<DBRecordModel> Records { get; set; }
 
-        public FilterSettingsViewModel FilterSettingsViewModel { get; private set; }
+        public ObservableCollection<DBLiveRecordModel> LiveRecords { get; set; }
+
+        public FilterSettingModel FilterSettingsModel { get; private set; }
 
         public double Elapsed { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void UpdateFilterSettingsViewModel(FilterSettingsViewModel filterSettingsViewModel)
+        public void UpdateFilterSettingsViewModel(FilterSettingModel filterSettingsViewModel)
         {
-            this.FilterSettingsViewModel = filterSettingsViewModel;
+            this.FilterSettingsModel = filterSettingsViewModel;
             this.UpdateRecords();
         }
 
@@ -42,34 +45,33 @@ namespace FJournalGUI.ViewModels
         {
             // TODO FILTER CLASS.
 
-
             Stopwatch sw = Stopwatch.StartNew();
 
-            IEnumerable<DBRecordViewModel> records = this.GetRecordsFromDBAccordingToFilter(this.FilterSettingsViewModel);
+            IEnumerable<DBRecordModel> records = this.GetRecordsFromDBAccordingToFilter(this.FilterSettingsModel);
 
             sw.Stop();
             this.Elapsed = sw.Elapsed.TotalMilliseconds;
 
-            this.Records = new ObservableCollection<DBRecordViewModel>(records);
+            this.Records = new ObservableCollection<DBRecordModel>(records);
         }
 
-        private IEnumerable<DBRecordViewModel> GetRecordsFromDBAccordingToFilter(FilterSettingsViewModel filter)
+        private IEnumerable<DBRecordModel> GetRecordsFromDBAccordingToFilter(FilterSettingModel filter)
         {
-            IEnumerable<DBRecordViewModel> records;
+            IEnumerable<DBRecordModel> records;
 
             if (filter.DateTimes.Count() > 0)
             {
                 records = this._mongoRecordRepository
                     .GetRecordsByDateCollection(filter.DateTimes.ToList(), filter.AmountOfRecordsToDisplay)
                     .Where(x => x.Message.Contains(filter.MessageSpan))
-                    .Select(x => new DBRecordViewModel(x));
+                    .Select(x => new DBRecordModel(x));
             }
             else
             {
                 records = this._mongoRecordRepository
                     .GetRecordsByAmount(filter.AmountOfRecordsToDisplay)
                     .Where(x => x.Message.Contains(filter.MessageSpan))
-                    .Select(x => new DBRecordViewModel(x));
+                    .Select(x => new DBRecordModel(x));
             }
 
             return records;

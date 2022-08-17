@@ -16,12 +16,6 @@
         AllowsTransparency="True" 
         ResizeMode="CanResize">
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="0" 
-                      CornerRadius="0" 
-                      CaptionHeight="0"/>
-    </WindowChrome.WindowChrome>
-
     <Grid Background="{StaticResource ControlBackgroundNormal}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -74,16 +68,25 @@
                       Grid.Row="0" 
                       VerticalAlignment="Stretch">
                     <DataGrid x:Name="dg_dbRecords" 
-                              MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
-                              IsReadOnly="True"
-                              Height="Auto"
-                              ScrollViewer.CanContentScroll="True"
-                              EnableRowVirtualization="True"
-                              EnableColumnVirtualization="True"
-                              VirtualizingPanel.IsVirtualizing="True"
-                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                              VirtualizingPanel.ScrollUnit="Item"
-                              AutoGenerateColumns="False">
+                                      ItemsSource="{Binding Path=Records, Mode=OneWay}"
+                                      MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
+                                      IsReadOnly="True"
+                                      Height="Auto"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.CanContentScroll="True"
+                                      EnableRowVirtualization="True"
+                                      EnableColumnVirtualization="True"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      VirtualizingPanel.ScrollUnit="Item"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserDeleteRows="False"
+                                      CanUserResizeColumns="False"
+                                      CanUserResizeRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Timestamp" 
                                                 Binding="{Binding Path=TimeStamp}"
@@ -154,6 +157,7 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
+
                 </Grid>
                 <Grid Grid.Row="1">
                     <StatusBar Padding="0,0,0,0"
@@ -177,7 +181,8 @@
                                 </Grid>
                             </Grid>
                         </StatusBarItem>
-                        <StatusBarItem>
+                        <StatusBarItem Margin="0"
+                                       Padding="0">
                             <Grid Width="160">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="7*"/>
@@ -208,7 +213,8 @@
                              IsEnabled="False"/>
                     <TabItem Header="Export Data"
                              IsEnabled="False"/>
-                    <TabItem Header="Report a Bug">
+                    <TabItem Header="Report a Bug"
+                             IsEnabled="False">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -307,7 +313,7 @@
                                                           Click="checkbox_isLiveWindowVisible_Click"
                                                           Padding="0"
                                                           Margin="0"
-                                                          IsEnabled="False"/>
+                                                          IsEnabled="True"/>
                                             </Grid>
                                         </Grid>
                                     </Grid>

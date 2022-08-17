@@ -5,8 +5,179 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FJournalGUI.Views"
         mc:Ignorable="d"
-        Title="DetailsView" Height="450" Width="800">
+        Title="DetailsView" 
+        Height="460" 
+        Width="380"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True" 
+        ResizeMode="CanResize">
+    
     <Grid Background="{StaticResource ControlBackgroundNormal}">
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              AllowDrop="True"
+              x:Name="grid_TitleBar"
+              Background="{StaticResource ControlBackgroundNormal}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Label Content="{Binding Path=Title}" 
+                       Foreground="{StaticResource ControlForegroundWhite}" 
+                       Margin="0,0,0,0" 
+                       Padding="25,0,0,0" 
+                       VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="2">
+                    <Button x:Name="button_CloseWindow" 
+                            Style="{StaticResource CloseRoundButton}" 
+                            Click="button_CloseWindow_Click"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" 
+                  Grid.Column="0">
+                <Label Content="TimeStamp"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="0" 
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.TimeStamp}"
+                               Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1" 
+                  Grid.Column="0">
+                <Label Content="Message"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="1" 
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding Path=DBRecordViewModel.Message}"
+                                   Style="{StaticResource TextBlockDetails}" />
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="2"
+                  Grid.Column="0">
+                <Label Content="LogSource"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="2"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogSource}"
+                               Style="{StaticResource TextBlockDetails}"/>                    
+                </Border>
+            </Grid>
+            <Grid Grid.Row="3"
+                  Grid.Column="0">
+                <Label Content="LogType"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="3"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogType}"
+                           Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="4"
+                  Grid.Column="0">
+                <Label Content="CallerMemberName"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="4"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.CallerMemberName}"
+                           Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="5"
+                  Grid.Column="0">
+                <Label Content="CallerFilePath"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="5"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding Path=DBRecordViewModel.CallerFilePath}"
+                                   Style="{StaticResource TextBlockDetails}"/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="6"
+                  Grid.Column="0">
+                <Label Content="CallerLineNumber"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="6"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.CallerLineNumber}"
+                           Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="7"
+                  Grid.Column="0">
+                <Label Content="TotalCpuUsage"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="7"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.TotalCpuUsage}"
+                           Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="8"
+                  Grid.Column="0">
+                <Label Content="PrivateMemoryUsage"
+                       Style="{StaticResource LabelFilterCaption}"/>
+            </Grid>
+            <Grid Grid.Row="8"
+                  Grid.Column="1">
+                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.PrivateMemoryUsage}"
+                           Style="{StaticResource TextBlockDetails}"/>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

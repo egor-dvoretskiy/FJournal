@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FJournalGUI.ViewModels
+namespace FJournalGUI.Models
 {
-    public class DBRecordViewModel
+    public class DBRecordModel
     {
         private readonly DBRecord _record;
 
-        public DBRecordViewModel(DBRecord record)
+        public DBRecordModel(DBRecord record)
         {
             this._record = record;
         }

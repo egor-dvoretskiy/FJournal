@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FJournalGUI.Models;
+using FJournalGUI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,23 @@ namespace FJournalGUI.Views
     /// </summary>
     public partial class DetailsView : Window
     {
-        public DetailsView()
+        private readonly DetailsViewModel _detailsViewModel;
+
+        public DetailsView(DBRecordModel? model, string title)
         {
             InitializeComponent();
+
+            this._detailsViewModel = new DetailsViewModel(model, title);
+            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
+
+            this.DataContext = this._detailsViewModel;
+        }
+
+        private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
+
+        private void button_CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

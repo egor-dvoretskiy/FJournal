@@ -37,7 +37,7 @@ namespace FJournalGUI
             this._applicationViewModel = new ApplicationViewModel();
             this.DataContext = this._applicationViewModel;
 
-            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
+            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
 
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
 

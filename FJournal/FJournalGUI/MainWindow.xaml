@@ -76,8 +76,43 @@
                     <DataGrid x:Name="dg_dbRecords" 
                               MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Records, Mode=OneWay}"
-                              Height="Auto">
+                              Height="Auto"
+                              ScrollViewer.CanContentScroll="True"
+                              EnableRowVirtualization="True"
+                              EnableColumnVirtualization="True"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingPanel.ScrollUnit="Item"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Timestamp" 
+                                                Binding="{Binding Path=TimeStamp}"
+                                                Width="150"/>
+                            <DataGridTextColumn Header="Message" 
+                                                Binding="{Binding Path=Message}"
+                                                Width="400"/>
+                            <DataGridTextColumn Header="LogSource" 
+                                                Binding="{Binding Path=LogSource}"
+                                                Width="100"/>
+                            <DataGridTextColumn Header="LogType" 
+                                                Binding="{Binding Path=LogType}"
+                                                Width="70"/>
+                            <DataGridTextColumn Header="CallerMemberName" 
+                                                Binding="{Binding Path=CallerMemberName}"
+                                                Width="200"/>
+                            <DataGridTextColumn Header="CallerFilePath" 
+                                                Binding="{Binding Path=CallerFilePath}"
+                                                Width="450"/>
+                            <DataGridTextColumn Header="CallerLineNumber" 
+                                                Binding="{Binding Path=CallerLineNumber}"
+                                                Width="80"/>
+                            <DataGridTextColumn Header="TotalCpuUsage" 
+                                                Binding="{Binding Path=TotalCpuUsage}"
+                                                Width="80"/>
+                            <DataGridTextColumn Header="PrivateMemoryUsage" 
+                                                Binding="{Binding Path=PrivateMemoryUsage}"
+                                                Width="80"/>
+                        </DataGrid.Columns>
                         <DataGrid.ContextMenu>
                             <ContextMenu x:Name="contextmenu_RecordsDataGridContextMenu">
                                 <MenuItem Header="TimeStamp"
@@ -143,16 +178,16 @@
                             </Grid>
                         </StatusBarItem>
                         <StatusBarItem>
-                            <Grid Width="200">
+                            <Grid Width="160">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="7*"/>
-                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="4*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
                                     <TextBlock x:Name="textblock_elapsedLabel" Text="Elapsed in ms:"
                                            Style="{StaticResource TextBlockStatusBar}"
                                            VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Stretch"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
                                     <TextBlock x:Name="textblock_elapsed" 

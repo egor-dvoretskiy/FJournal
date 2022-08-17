@@ -21,10 +21,7 @@ namespace FJournalGUI.ViewModels
         public ApplicationViewModel()
         {
             this._mongoRecordRepository = new MongoRecordRepository();
-
             this.FilterSettingsViewModel = new FilterSettingsViewModel();
-
-            this.UpdateRecords();
         }
 
         public ObservableCollection<DBRecordViewModel> Records { get; set; }
@@ -45,29 +42,37 @@ namespace FJournalGUI.ViewModels
         {
             // TODO FILTER CLASS.
 
-            IEnumerable<DBRecordViewModel> records;
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            if (this.FilterSettingsViewModel.DateTimes.Count() > 0)
+            IEnumerable<DBRecordViewModel> records = this.GetRecordsFromDBAccordingToFilter(this.FilterSettingsViewModel);
+
+            sw.Stop();
+            this.Elapsed = sw.Elapsed.TotalMilliseconds;
+
+            this.Records = new ObservableCollection<DBRecordViewModel>(records);
+        }
+
+        private IEnumerable<DBRecordViewModel> GetRecordsFromDBAccordingToFilter(FilterSettingsViewModel filter)
+        {
+            IEnumerable<DBRecordViewModel> records;
+
+            if (filter.DateTimes.Count() > 0)
             {
                 records = this._mongoRecordRepository
-                    .GetRecordsByDateCollection(this.FilterSettingsViewModel.DateTimes.ToList(), this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
-                    .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan))
+                    .GetRecordsByDateCollection(filter.DateTimes.ToList(), filter.AmountOfRecordsToDisplay)
+                    .Where(x => x.Message.Contains(filter.MessageSpan))
                     .Select(x => new DBRecordViewModel(x));
             }
             else
             {
                 records = this._mongoRecordRepository
-                    .GetRecordsByAmount(this.FilterSettingsViewModel.AmountOfRecordsToDisplay)
-                    .Where(x => x.Message.Contains(this.FilterSettingsViewModel.MessageSpan))
+                    .GetRecordsByAmount(filter.AmountOfRecordsToDisplay)
+                    .Where(x => x.Message.Contains(filter.MessageSpan))
                     .Select(x => new DBRecordViewModel(x));
             }
 
-            sw.Stop();
-            this.Elapsed = sw.Elapsed.TotalMilliseconds;
-
-            this.Records = new ObservableCollection<DBRecordViewModel>(records);    
+            return records;
         }
     }
 }

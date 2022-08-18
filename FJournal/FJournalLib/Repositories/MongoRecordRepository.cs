@@ -103,14 +103,14 @@ namespace FJournalLib.Repositories
             collection.ReplaceOne(x => x.Id == record.Id, record);
         }
 
-        public IMongoCollection<DBRecord> GetCollectionByName(string collectionName = "") => this.Memoized(collectionName, x =>
+        public IMongoCollection<DBRecord> GetCollectionByName(string collectionName = "")
         {
             string localCollectionName = string.IsNullOrEmpty(collectionName) ? this.GetCollectionNameForToday() : collectionName;
 
             var collection = this._database.GetCollection<DBRecord>(localCollectionName);
 
             return collection;
-        });
+        }
 
         private string GetCollectionNameForToday()
         {
@@ -128,39 +128,45 @@ namespace FJournalLib.Repositories
             return todayCollectionName;
         }
 
-        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet) => this.Memoized((string.Join(".", collectionNames), amountOfRecordsToGet), x =>
+        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet) => this.Memoized((string.Join('.', collectionNames), amountOfRecordsToGet), x =>
         {
+            //IEnumerable<DBRecord> records = new List<DBRecord>();
             List<DBRecord> records = new List<DBRecord>();
 
             foreach (var collectionName in collectionNames)
             {
-                var collection = this.GetCollectionByName(collectionName);
+                if (records.Count() >= amountOfRecordsToGet)
+                    break;
 
-                if (records.Count < amountOfRecordsToGet)
-                {
-                    int amountOfRecordsToFill = Math.Abs(amountOfRecordsToGet - records.Count);
-                    var amountOfItemsInCollection = collection.EstimatedDocumentCount();
+                // records amount calculations
+                int amountOfRecordsToFill = Math.Abs(amountOfRecordsToGet - records.Count());
+                // -
 
-                    try
-                    {
-                        if (amountOfRecordsToFill >= amountOfItemsInCollection)
-                        {
-                            records.AddRange(collection.Find(new BsonDocument()).ToEnumerable());
-                        }
-                        else
-                        {
-                            int skipAmount = (int)(amountOfItemsInCollection - amountOfRecordsToFill);
+                var payload = this.GetRecordsFromSpecificMongoCollection(collectionName, amountOfRecordsToFill);
 
-                            return collection.Find(new BsonDocument()).Skip(skipAmount).ToEnumerable().OrderBy(x => x.TimeStamp);
-                        }
-                    }
-                    catch (FormatException) { }
-                }
+                records.AddRange(payload);
             }
 
-            var orderedRecordsByTimeStamp = records.OrderBy(x => x.TimeStamp);
+            var orderedRecordsByTimeStamp = records.OrderByDescending(x => x.TimeStamp);
 
             return orderedRecordsByTimeStamp;
+        });
+
+        private List<DBRecord> GetRecordsFromSpecificMongoCollection(string collectionName, int amountOfRecordsToFill) => this.Memoized((collectionName, amountOfRecordsToFill), x =>
+        {
+            // gets db data
+            var collection = this.GetCollectionByName(collectionName);
+            // -
+
+            // records amount calculations
+            var amountOfItemsInCollection = collection.EstimatedDocumentCount();
+            int differenceAmount = (int)(amountOfItemsInCollection - amountOfRecordsToFill);
+            int skipAmount = differenceAmount < 0 ? 0 : differenceAmount;
+            // -
+
+            var payload = collection.Find(new BsonDocument()).Skip(skipAmount).ToList();
+
+            return payload;
         });
     }
 }

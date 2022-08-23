@@ -58,15 +58,15 @@ namespace FJournalLib
             {
                 record.Message = inputRecord.Message;
                 record.LogType = inputRecord.LogType;
-                record.LogSource = Enums.LogSource.External;
+                record.LogSource = LogSource.External;
 
                 this._recordRepository.Create(record);
             }
             catch (Exception exception)
             {
                 record.Message = exception.Message;
-                record.LogType = Enums.LogType.Error;
-                record.LogSource = Enums.LogSource.Inner;
+                record.LogType = LogType.Error;
+                record.LogSource = LogSource.Inner;
 
                 this._recordRepository.Create(record);
             }

@@ -11,6 +11,6 @@ namespace FJournalLib.Models
     {
         public LogType LogType { get; set; }
 
-        public string? Message { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FJournalLib;
+using FJournalLib.Extensions;
 using FJournalLib.Models;
 using FJournalLib.Repositories;
 using System;
@@ -45,13 +46,9 @@ namespace FJournalGUI.ViewModels
         {
             // TODO FILTER CLASS.
 
-            Stopwatch sw = Stopwatch.StartNew();
+            IEnumerable<DBRecordModel> records = this.EvaluateTime(() => this.GetRecordsFromDBAccordingToFilter(this.FilterSettingsModel), out double EvaluatedTime);
 
-            IEnumerable<DBRecordModel> records = this.GetRecordsFromDBAccordingToFilter(this.FilterSettingsModel);
-
-            sw.Stop();
-            this.Elapsed = sw.Elapsed.TotalMilliseconds;
-
+            this.Elapsed = EvaluatedTime;
             this.Records = new ObservableCollection<DBRecordModel>(records);
         }
 

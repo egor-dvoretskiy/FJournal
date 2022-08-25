@@ -128,7 +128,7 @@ namespace FJournalLib.Repositories
             return todayCollectionName;
         }
 
-        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet) => this.Memoized((string.Join('.', collectionNames), amountOfRecordsToGet), x =>
+        private IEnumerable<DBRecord> GetRecordsFromCollection(List<string> collectionNames, int amountOfRecordsToGet) => this.Memoized((string.Join(".", collectionNames), amountOfRecordsToGet), x =>
         {
             //IEnumerable<DBRecord> records = new List<DBRecord>();
             List<DBRecord> records = new List<DBRecord>();
@@ -147,7 +147,7 @@ namespace FJournalLib.Repositories
                 records.AddRange(payload);
             }
 
-            var orderedRecordsByTimeStamp = records.OrderByDescending(x => x.TimeStamp);
+            var orderedRecordsByTimeStamp = records.OrderByDescending(comparer => comparer.TimeStamp);
 
             return orderedRecordsByTimeStamp;
         });

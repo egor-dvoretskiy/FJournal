@@ -16,8 +16,7 @@ namespace FJournalLib.Extensions
             this object context,
             T1 arg,
             Func<T1, TResult> func,
-            [CallerMemberName] string? cacheKey = null)
-            where T1 : notnull
+            [CallerMemberName] string cacheKey = "")
         {
             if (context == null)
             {

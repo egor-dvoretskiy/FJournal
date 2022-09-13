@@ -88,7 +88,7 @@
                                       CanUserResizeColumns="False"
                                       CanUserResizeRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Timestamp" 
+                            <DataGridTextColumn Header="TimeStamp" 
                                                 Binding="{Binding Path=TimeStamp}"
                                                 Width="150"/>
                             <DataGridTextColumn Header="Message" 

@@ -13,8 +13,8 @@ namespace FJournalLib
 {
     public class Journal
     {
-        private JournalStateLocal localState = JournalStateLocal.Enabled;
-        private static JournalStateGlobal globalState = JournalStateGlobal.Enabled;
+        private JournalState localState = JournalState.Enabled;
+        private static JournalState globalState = JournalState.Enabled;
 
         private static ApplicationType applicationType = ApplicationType.Undefined;
 
@@ -29,16 +29,16 @@ namespace FJournalLib
 
         public static void SetApplicationType(ApplicationType type) => applicationType = type;
 
-        public static void SetJournalGlobalState(JournalStateGlobal globalStateInput) => globalState = globalStateInput;
+        public static void SetJournalGlobalState(JournalState globalStateInput) => globalState = globalStateInput;
 
-        public void SetJournalLocalState(JournalStateLocal localStateInput) => localState = localStateInput;
+        public void SetJournalLocalState(JournalState localStateInput) => localState = localStateInput;
 
         public void Note(TRecord inputRecord,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] uint lineNumber = 0)
         {
-            if (globalState != JournalStateGlobal.Enabled && localState != JournalStateLocal.Enabled)
+            if (globalState != JournalState.Enabled && localState != JournalState.Enabled)
                 return;
 
             long memoryUsageMb = this.GetMemoryUsageInMb();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FJournalLib.Enums
 {
-    public enum JournalStateGlobal
+    public enum JournalState
     {
         Enabled,
         Disabled

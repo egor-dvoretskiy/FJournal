@@ -53,8 +53,7 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="1" 
-              x:Name="grid_MainLayout">
-            
+              x:Name="grid_MainLayout">            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="300"/>
@@ -66,8 +65,17 @@
                 </Grid.RowDefinitions>
                 <Grid x:Name="grid_DataGridRecords" 
                       Grid.Row="0" 
-                      VerticalAlignment="Stretch">
-                    <DataGrid x:Name="dg_dbRecords" 
+                      VerticalAlignment="Stretch" 
+                      Loaded="grid_DataGridRecords_Loaded">
+                    <TabControl TabStripPlacement="Left" 
+                                SizeChanged="TabControl_SizeChanged">
+                        <TabItem Header="Records Window"
+                                 Background="{StaticResource ControlBackgroundNormal}"
+                                 FontSize="12"
+                                 Height="20">
+                            <DataGrid x:Name="dg_dbRecords" 
+                                      Padding="0,0,0,0"
+                                      Margin="0,0,0,0"
                                       ItemsSource="{Binding Path=Records, Mode=OneWay}"
                                       MouseDoubleClick="dg_dbRecords_MouseDoubleClick"
                                       IsReadOnly="True"
@@ -86,78 +94,88 @@
                                       CanUserReorderColumns="False"
                                       CanUserDeleteRows="False"
                                       CanUserResizeColumns="False"
-                                      CanUserResizeRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="TimeStamp" 
-                                                Binding="{Binding Path=TimeStamp}"
-                                                Width="150"/>
-                            <DataGridTextColumn Header="Message" 
-                                                Binding="{Binding Path=Message}"
-                                                Width="400"/>
-                            <DataGridTextColumn Header="LogSource" 
-                                                Binding="{Binding Path=LogSource}"
-                                                Width="100"/>
-                            <DataGridTextColumn Header="LogType" 
-                                                Binding="{Binding Path=LogType}"
-                                                Width="70"/>
-                            <DataGridTextColumn Header="CallerMemberName" 
-                                                Binding="{Binding Path=CallerMemberName}"
-                                                Width="200"/>
-                            <DataGridTextColumn Header="CallerFilePath" 
-                                                Binding="{Binding Path=CallerFilePath}"
-                                                Width="450"/>
-                            <DataGridTextColumn Header="CallerLineNumber" 
-                                                Binding="{Binding Path=CallerLineNumber}"
-                                                Width="80"/>
-                            <DataGridTextColumn Header="TotalCpuUsage" 
-                                                Binding="{Binding Path=TotalCpuUsage}"
-                                                Width="80"/>
-                            <DataGridTextColumn Header="PrivateMemoryUsage" 
-                                                Binding="{Binding Path=PrivateMemoryUsage}"
-                                                Width="80"/>
-                        </DataGrid.Columns>
-                        <DataGrid.ContextMenu>
-                            <ContextMenu x:Name="contextmenu_RecordsDataGridContextMenu">
-                                <MenuItem Header="TimeStamp"
-                                          Click="TimeStampMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="LogSource"
-                                          Click="LogSourceMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="LogType"
-                                          Click="LogTypeMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="Message"
-                                          Click="MessageMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="CallerMemberName"
-                                          Click="CallerMemberNameMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="CallerFilePath"
-                                          Click="CallerFilePathMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="CallerLineNumber"
-                                          Click="CallerLineNumberMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="TotalCpuUsage"
-                                          Click="TotalCpuUsageMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                                <MenuItem Header="PrivateMemoryUsage"
-                                          Click="PrivateMemoryUsageMenuItem_Click"
-                                          IsCheckable="True"
-                                          IsChecked="True"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                    </DataGrid>
-
+                                      CanUserResizeRows="False" 
+                                      VerticalContentAlignment="Stretch" 
+                                      HorizontalContentAlignment="Stretch">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="TimeStamp" 
+                                                        Binding="{Binding Path=TimeStamp}"
+                                                        Width="150"/>
+                                    <DataGridTextColumn Header="Message" 
+                                                        Binding="{Binding Path=Message}"
+                                                        Width="400"/>
+                                    <DataGridTextColumn Header="LogSource" 
+                                                        Binding="{Binding Path=LogSource}"
+                                                        Width="100"/>
+                                    <DataGridTextColumn Header="LogType" 
+                                                        Binding="{Binding Path=LogType}"
+                                                        Width="70"/>
+                                    <DataGridTextColumn Header="CallerMemberName" 
+                                                        Binding="{Binding Path=CallerMemberName}"
+                                                        Width="200"/>
+                                    <DataGridTextColumn Header="CallerFilePath" 
+                                                        Binding="{Binding Path=CallerFilePath}"
+                                                        Width="450"/>
+                                    <DataGridTextColumn Header="CallerLineNumber" 
+                                                        Binding="{Binding Path=CallerLineNumber}"
+                                                        Width="80"/>
+                                    <DataGridTextColumn Header="TotalCpuUsage" 
+                                                        Binding="{Binding Path=TotalCpuUsage}"
+                                                        Width="80"/>
+                                    <DataGridTextColumn Header="PrivateMemoryUsage" 
+                                                        Binding="{Binding Path=PrivateMemoryUsage}"
+                                                        Width="80"/>
+                                </DataGrid.Columns>
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu x:Name="contextmenu_RecordsDataGridContextMenu">
+                                        <MenuItem Header="TimeStamp"
+                                                  Click="TimeStampMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="LogSource"
+                                                  Click="LogSourceMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="LogType"
+                                                  Click="LogTypeMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="Message"
+                                                  Click="MessageMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="CallerMemberName"
+                                                  Click="CallerMemberNameMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="CallerFilePath"
+                                                  Click="CallerFilePathMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="CallerLineNumber"
+                                                  Click="CallerLineNumberMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="TotalCpuUsage"
+                                                  Click="TotalCpuUsageMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                        <MenuItem Header="PrivateMemoryUsage"
+                                                  Click="PrivateMemoryUsageMenuItem_Click"
+                                                  IsCheckable="True"
+                                                  IsChecked="True"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Live Window"
+                                 Background="{StaticResource ControlBackgroundNormal}"
+                                 Foreground="Wheat"
+                                 FontSize="12"
+                                 Height="20">
+                            
+                        </TabItem>
+                    </TabControl>    
                 </Grid>
                 <Grid Grid.Row="1">
                     <StatusBar Padding="0,0,0,0"
@@ -247,7 +265,6 @@
                                             <RowDefinition Height="30"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="30"/>
-                                            <RowDefinition Height="30"/>
                                         </Grid.RowDefinitions>
 
                                         <Grid Grid.Row="0">
@@ -296,26 +313,7 @@
                                                          Style="{StaticResource TextBoxInputField}"/>
                                             </Grid>
                                         </Grid>
-                                        <Grid Grid.Row="4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0">
-                                                <Label Content="Live Window"
-                                                       Style="{StaticResource LabelFilterCaption}"/>
-                                            </Grid>
-                                            <Grid Grid.Column="1">
-                                                <CheckBox x:Name="checkbox_isLiveWindowVisible" 
-                                                          IsChecked="False"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" 
-                                                          Click="checkbox_isLiveWindowVisible_Click"
-                                                          Padding="0"
-                                                          Margin="0"
-                                                          IsEnabled="True"/>
-                                            </Grid>
-                                        </Grid>
+                                        
                                     </Grid>
                                 </ScrollViewer>
                             </Grid>

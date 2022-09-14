@@ -30,6 +30,8 @@ namespace FJournalGUI
     {
         private readonly ApplicationViewModel _applicationViewModel;
 
+        private double liveWindowHeight = 0;
+        private double recordsWindowHeight = 0;
         /// TODO SCROLLING TO THE BOTTOM
 
         public MainWindow()
@@ -41,15 +43,15 @@ namespace FJournalGUI
             this.DataContext = this._applicationViewModel;
             // -
 
-            // update layout
-            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
-            this.UpdateLiveWindowVisibility();
-            this.UpdateFilterSettingsGroupboxValues();
-            // -
-
             // events
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
             /*this._applicationViewModel.LiveRecords.CollectionChanged += LiveRecords_CollectionChanged;*/
+            // -
+
+            // update layout
+            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
+            
+            this.UpdateFilterSettingsGroupboxValues();
             // -
         }
 
@@ -138,11 +140,6 @@ namespace FJournalGUI
             }
         }
 
-        private void checkbox_isLiveWindowVisible_Click(object sender, RoutedEventArgs e)
-        {
-            this.UpdateLiveWindowVisibility();
-        }
-
         private int GetIndexForDatagridByHeader(string? columnName, DataGrid dataGrid)
         {
             if (!string.IsNullOrEmpty(columnName))
@@ -175,21 +172,6 @@ namespace FJournalGUI
             this.dg_dbRecords.Columns[columnIndex].Visibility = menuItem.IsChecked ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void UpdateLiveWindowVisibility()
-        {
-            /*if (this.checkbox_isLiveWindowVisible.IsChecked is null)
-                return;
-
-            if (this.checkbox_isLiveWindowVisible.IsChecked.Value)
-            {
-                this.grid_liveWindow.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.grid_liveWindow.Visibility = Visibility.Collapsed;
-            }*/
-        }
-
         private void TimeStampMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
 
         private void LogSourceMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
@@ -207,5 +189,29 @@ namespace FJournalGUI
         private void TotalCpuUsageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
 
         private void PrivateMemoryUsageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
+
+        private void grid_DataGridRecords_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.recordsWindowHeight = this.grid_DataGridRecords.ActualHeight;
+        }
+
+        private void TabControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var control = sender as TabControl;
+
+            if (control is null)
+            {
+                return;
+            }
+
+            foreach(TabItem item in control.Items)
+            {
+                double newWidth = (control.ActualHeight / control.Items.Count) - 2;
+                if (newWidth < 0)
+                    newWidth = 0;
+
+                item.Width = newWidth;
+            }
+        }
     }
 }

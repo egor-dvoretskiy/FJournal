@@ -50,7 +50,6 @@ namespace FJournalGUI
 
             // update layout
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
-            
             this.UpdateFilterSettingsGroupboxValues();
             // -
         }

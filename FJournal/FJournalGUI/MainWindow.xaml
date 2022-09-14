@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FJournalGUI"
+        xmlns:control="clr-namespace:FJournalGUI.Views"
         x:Name="FJournalWindow"
         mc:Ignorable="d"
         Title="FJournal" 
@@ -173,7 +174,11 @@
                                  Foreground="Wheat"
                                  FontSize="12"
                                  Height="20">
-                            
+                            <control:LiveBlock x:Name="LiveBlock_Records"
+                                               Margin="0,0,0,0"
+                                               Padding="0,0,0,0"
+                                               Background="#FF3A3A3A"
+                                               ItemsCountLimit="16"/>
                         </TabItem>
                     </TabControl>    
                 </Grid>

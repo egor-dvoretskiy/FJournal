@@ -28,8 +28,6 @@ namespace FJournalGUI.ViewModels
 
         public ObservableCollection<DBRecordModel> Records { get; set; }
 
-        public ObservableCollection<DBLiveRecordModel> LiveRecords { get; set; }
-
         public FilterSettingModel FilterSettingsModel { get; private set; }
 
         public double Elapsed { get; private set; }

@@ -18,7 +18,8 @@
                 <TextBlock x:Name="TextBlock_LiveWindowTimestamp"
                            VerticalAlignment="Stretch"
                            HorizontalAlignment="Center"
-                           Foreground="Wheat"/>
+                           Foreground="Wheat"
+                           Text="{Binding Path=Record.TimeStamp}"/>
             </Grid>
             <Grid Grid.Column="1"
                   VerticalAlignment="Stretch"
@@ -29,7 +30,8 @@
                            Padding="15,0,15,0"
                            Foreground="Wheat" 
                            ScrollViewer.CanContentScroll="True"
-                           TextWrapping="Wrap"/>
+                           TextWrapping="Wrap"
+                           Text="{Binding Path=Record.Message}"/>
             </Grid>
         </Grid>
     </Grid>

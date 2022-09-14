@@ -1,4 +1,5 @@
 ﻿using FJournalGUI.Models;
+using FJournalGUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,16 @@ namespace FJournalGUI.Views
     /// </summary>
     public partial class LiveBlockItem : UserControl
     {
+        private readonly LiveBlockItemViewModel _liveBlockItemViewModel;
         public LiveBlockItem(DBLiveRecordModel liveBlockItemModel)
         {
             InitializeComponent();
 
-            this.TextBlock_LiveWindowTimestamp.Text = liveBlockItemModel.TimeStamp.ToString("G");
-            this.TextBlock_LiveWindowMessage.Text = liveBlockItemModel.Message;
+            this._liveBlockItemViewModel = new LiveBlockItemViewModel(liveBlockItemModel);
+            this.DataContext = this._liveBlockItemViewModel;
+
+            /*this.TextBlock_LiveWindowTimestamp.Text = liveBlockItemModel.TimeStamp.ToString("G");
+            this.TextBlock_LiveWindowMessage.Text = liveBlockItemModel.Message;*/
         }
     }
 }

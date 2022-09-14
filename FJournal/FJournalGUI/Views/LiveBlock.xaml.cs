@@ -1,4 +1,5 @@
 ﻿using FJournalGUI.Models;
+using FJournalGUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,14 @@ namespace FJournalGUI.Views
     /// </summary>
     public partial class LiveBlock : UserControl
     {
+        private readonly LiveBlockViewModel _liveBlockViewModel;
         private int itemsCountLimit = 50;
         public LiveBlock()
         {
             InitializeComponent();
+
+            this._liveBlockViewModel = new LiveBlockViewModel();
+            this.DataContext = this._liveBlockViewModel;
         }
 
         public int ItemsCountLimit 

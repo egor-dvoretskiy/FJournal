@@ -30,6 +30,8 @@ namespace FJournalGUI.Views
 
             this._liveBlockViewModel = new LiveBlockViewModel();
             this.DataContext = this._liveBlockViewModel;
+
+            this._liveBlockViewModel.LiveRecordsOnAir += _liveBlockViewModel_LiveRecordsOnAir;
         }
 
         public int ItemsCountLimit 
@@ -42,10 +44,23 @@ namespace FJournalGUI.Views
             }
         }
 
+        public void EnableLiveBlock()
+        {
+            this._liveBlockViewModel.Enable();
+        }
+
+        public void DisableLiveBlock()
+        {
+            this._liveBlockViewModel.Disable();
+        }
+
         public void AddItem(DBLiveRecordModel liveBlockItemModel)
         {
-            this.DeleteExtraItemsIfNecessary();
-            this.StackPanel_Records.Children.Add(new LiveBlockItem(liveBlockItemModel));
+            Dispatcher.BeginInvoke(() => 
+            {
+                this.DeleteExtraItemsIfNecessary();
+                this.StackPanel_Records.Children.Add(new LiveBlockItem(liveBlockItemModel));
+            });            
         }
 
         private void DeleteExtraItemsIfNecessary()
@@ -53,6 +68,14 @@ namespace FJournalGUI.Views
             while (this.StackPanel_Records.Children.Count >= itemsCountLimit)
             {
                 this.StackPanel_Records.Children.RemoveAt(0);
+            }
+        }
+
+        private void _liveBlockViewModel_LiveRecordsOnAir(IEnumerable<DBLiveRecordModel> dBLiveRecordModel)
+        {
+            foreach (var item in dBLiveRecordModel)
+            {
+                this.AddItem(item);
             }
         }
     }

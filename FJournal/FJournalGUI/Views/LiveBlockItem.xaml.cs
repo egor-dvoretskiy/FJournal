@@ -29,9 +29,6 @@ namespace FJournalGUI.Views
 
             this._liveBlockItemViewModel = new LiveBlockItemViewModel(liveBlockItemModel);
             this.DataContext = this._liveBlockItemViewModel;
-
-            /*this.TextBlock_LiveWindowTimestamp.Text = liveBlockItemModel.TimeStamp.ToString("G");
-            this.TextBlock_LiveWindowMessage.Text = liveBlockItemModel.Message;*/
         }
     }
 }

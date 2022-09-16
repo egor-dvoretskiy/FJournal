@@ -12,10 +12,12 @@ using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using FJournalLib.Extensions;
 using System.Diagnostics;
+using System.Threading;
+using MongoDB.Bson.Serialization;
 
 namespace FJournalLib.Repositories
 {
-    public class MongoRecordRepository : IRepository<DBRecord>
+    public class MongoRecordRepository : IRepository<DBRecord>, IJournalRepositoryBackground
     {
         private static readonly string _dbName =                "FJournalDb";
         private static readonly string _connectionString =      "mongodb://localhost:27017/FJounalDb";
@@ -110,6 +112,21 @@ namespace FJournalLib.Repositories
             var collection = this._database.GetCollection<DBRecord>(localCollectionName);
 
             return collection;
+        }
+
+        public IEnumerable<DBRecord> ObserveChanges(CancellationToken cancellationToken)
+        {
+            string collectionName = this.GetCollectionNameForToday();
+
+            var collection = this._database.GetCollection<DBRecord>(collectionName);
+
+            var cursor = collection.Watch();
+            while (cursor.MoveNext(cancellationToken) && cursor.Current.Count() == 0) { }
+
+            var next = cursor.Current;
+            cursor.Dispose();
+
+            return next.Select(x => x.FullDocument);
         }
 
         private string GetCollectionNameForToday()

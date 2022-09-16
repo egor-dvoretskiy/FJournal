@@ -66,10 +66,11 @@
                 </Grid.RowDefinitions>
                 <Grid x:Name="grid_DataGridRecords" 
                       Grid.Row="0" 
-                      VerticalAlignment="Stretch" 
-                      Loaded="grid_DataGridRecords_Loaded">
-                    <TabControl TabStripPlacement="Left" 
-                                SizeChanged="TabControl_SizeChanged">
+                      VerticalAlignment="Stretch" >
+                    <TabControl x:Name="TabControl_Main" 
+                                TabStripPlacement="Left" 
+                                SizeChanged="TabControl_SizeChanged" 
+                                SelectionChanged="TabControl_Main_SelectionChanged">
                         <TabItem Header="Records Window"
                                  Background="{StaticResource ControlBackgroundNormal}"
                                  FontSize="12"
@@ -177,7 +178,8 @@
                             <control:LiveBlock x:Name="LiveBlock_Records"
                                                Margin="0,0,0,0"
                                                Padding="0,0,0,0"
-                                               Background="#FF3A3A3A"/>
+                                               Background="#FF3A3A3A"
+                                               ItemsCountLimit="50"/>
                         </TabItem>
                     </TabControl>    
                 </Grid>

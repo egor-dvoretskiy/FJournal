@@ -30,8 +30,7 @@ namespace FJournalGUI
     {
         private readonly ApplicationViewModel _applicationViewModel;
 
-        private double liveWindowHeight = 0;
-        private double recordsWindowHeight = 0;
+        private int timerIncrement = 0;
         /// TODO SCROLLING TO THE BOTTOM
 
         public MainWindow()
@@ -45,18 +44,29 @@ namespace FJournalGUI
 
             // events
             this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
-            /*this._applicationViewModel.LiveRecords.CollectionChanged += LiveRecords_CollectionChanged;*/
             // -
 
             // update layout
             this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
             this.UpdateFilterSettingsGroupboxValues();
             // -
+
+            /*Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.AutoReset = true;
+            timer.Elapsed += Timer_Elapsed;
+            timer.Enabled = true;*/
         }
 
-        private void LiveRecords_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        /*private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-        }
+            Journal journal = new Journal();
+            journal.Note(new FJournalLib.Models.TRecord()
+            {
+                Message = $"{++this.timerIncrement}",
+                LogType = LogType.Info
+            });
+        }*/
 
         private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
@@ -189,11 +199,6 @@ namespace FJournalGUI
 
         private void PrivateMemoryUsageMenuItem_Click(object sender, RoutedEventArgs e) => this.ProcessMenuItemVisibility(sender as MenuItem);
 
-        private void grid_DataGridRecords_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.recordsWindowHeight = this.grid_DataGridRecords.ActualHeight;
-        }
-
         private void TabControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var control = sender as TabControl;
@@ -212,5 +217,30 @@ namespace FJournalGUI
                 item.Width = newWidth;
             }
         }
+
+        private void TabControl_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tabControl = sender as TabControl;
+            var tabItem = tabControl?.SelectedItem as TabItem;
+
+            if (tabItem is null || !this.IsLoaded)
+                return;
+
+            if (tabItem.Header.Equals("Live Window"))
+            {
+                this.LiveBlock_Records.EnableLiveBlock();
+
+                this.button_ApplyFilterSettings.IsEnabled = false;
+                this.button_ResetFilterSettingsToDefault.IsEnabled = false;
+            }
+            else
+            {
+                this.LiveBlock_Records.DisableLiveBlock();
+
+                this.button_ApplyFilterSettings.IsEnabled = true;
+                this.button_ResetFilterSettingsToDefault.IsEnabled = true;
+            }
+        }
+
     }
 }

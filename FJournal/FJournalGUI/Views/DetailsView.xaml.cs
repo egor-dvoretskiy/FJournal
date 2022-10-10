@@ -28,16 +28,14 @@ namespace FJournalGUI.Views
             InitializeComponent();
 
             this._detailsViewModel = new DetailsViewModel(model, title);
-            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
+            this.TitleBarEtheme.OnClose += TitleBarEtheme_OnClose;
+            this.TitleBarEtheme.MouseDown += TitleBarEtheme_MouseDown;
 
             this.DataContext = this._detailsViewModel;
         }
 
-        private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
+        private void TitleBarEtheme_MouseDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
-        private void button_CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void TitleBarEtheme_OnClose() => this.Close();
     }
 }

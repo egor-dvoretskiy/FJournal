@@ -30,8 +30,7 @@ namespace FJournalGUI
     {
         private readonly ApplicationViewModel _applicationViewModel;
 
-        private int timerIncrement = 0;
-        /// TODO SCROLLING TO THE BOTTOM
+        /*private int timerIncrement = 0;*/
 
         public MainWindow()
         {
@@ -43,11 +42,14 @@ namespace FJournalGUI
             // -
 
             // events
-            this.grid_TitleBar.MouseLeftButtonDown += grid_TitleBar_MouseLeftButtonDown;
+            this.grid_TitleBar.MouseDown += Grid_TitleBar_MouseDown;
+            this.grid_TitleBar.OnClose += Grid_TitleBar_OnClose;
+            this.grid_TitleBar.OnMaximize += Grid_TitleBar_OnMaximize;
+            this.grid_TitleBar.OnMinimize += Grid_TitleBar_OnMinimize;
             // -
 
             // update layout
-            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
+            this.textblock_AmountOfItemsInRecords.Content = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
             this.UpdateFilterSettingsGroupboxValues();
             // -
 
@@ -58,6 +60,14 @@ namespace FJournalGUI
             timer.Enabled = true;*/
         }
 
+        private void Grid_TitleBar_OnMinimize() => this.WindowState = WindowState.Minimized;
+
+        private void Grid_TitleBar_OnMaximize() => this.WindowState = WindowState.Maximized;
+
+        private void Grid_TitleBar_OnClose() => this.Close();
+
+        private void Grid_TitleBar_MouseDown(object sender, MouseButtonEventArgs e) => this.DragMove();
+
         /*private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             Journal journal = new Journal();
@@ -67,8 +77,6 @@ namespace FJournalGUI
                 LogType = LogType.Info
             });
         }*/
-
-        private void grid_TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
         private void dg_dbRecords_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -117,8 +125,8 @@ namespace FJournalGUI
 
             // updating layout
             this.dg_dbRecords.ItemsSource = this._applicationViewModel.Records;
-            this.textblock_AmountOfItemsInRecords.Text = this._applicationViewModel.Records.Count().ToString();
-            this.textblock_elapsed.Text = this._applicationViewModel.Elapsed.ToString();
+            this.textblock_AmountOfItemsInRecords.Content = this._applicationViewModel.Records.Count().ToString();
+            this.textblock_elapsed.Content = this._applicationViewModel.Elapsed.ToString();
             // -
         }
 

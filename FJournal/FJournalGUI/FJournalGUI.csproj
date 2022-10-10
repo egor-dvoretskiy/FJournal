@@ -11,4 +11,10 @@
     <ProjectReference Include="..\FJournalLib\FJournalLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ETheme">
+      <HintPath>..\DLL\ETheme.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

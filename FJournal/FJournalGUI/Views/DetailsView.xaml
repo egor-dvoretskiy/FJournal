@@ -4,50 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FJournalGUI.Views"
+        xmlns:ethemeviews="clr-namespace:ETheme.Views;assembly=ETheme"
         mc:Ignorable="d"
         Title="DetailsView" 
-        Height="460" 
+        Height="476" 
         Width="380"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True" 
-        ResizeMode="CanResize">
-    
-    <Grid Background="{StaticResource ControlBackgroundNormal}">
+        ResizeMode="CanResize"
+        Background="{StaticResource DefaultBackgroundColor}">
+
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              AllowDrop="True"
-              x:Name="grid_TitleBar"
-              Background="{StaticResource ControlBackgroundNormal}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="60"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <Label Content="{Binding Path=Title}" 
-                       Foreground="{StaticResource ControlForegroundWhite}" 
-                       Margin="0,0,0,0" 
-                       Padding="25,0,0,0" 
-                       VerticalAlignment="Center"/>
-            </Grid>
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="2">
-                    <Button x:Name="button_CloseWindow" 
-                            Style="{StaticResource CloseRoundButton}" 
-                            Click="button_CloseWindow_Click"/>
-                </Grid>
-            </Grid>
-        </Grid>
+        
+        <ethemeviews:TitleBar Grid.Row="0" 
+                              x:Name="TitleBarEtheme"    
+                              Title="Details"
+                              IsMaximizeButtonVisible="False"
+                              IsMinimizeButtonVisible="False"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -66,116 +44,99 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" 
                   Grid.Column="0">
-                <Label Content="TimeStamp"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="TimeStamp"/>
             </Grid>
             <Grid Grid.Row="0" 
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.TimeStamp}"
-                               Style="{StaticResource TextBlockDetails}"/>
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.TimeStamp}"/>
                 </Border>
             </Grid>
             <Grid Grid.Row="1" 
                   Grid.Column="0">
-                <Label Content="Message"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="Message"/>
             </Grid>
             <Grid Grid.Row="1" 
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                <Border>
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
-                        <TextBlock Text="{Binding Path=DBRecordViewModel.Message}"
-                                   Style="{StaticResource TextBlockDetails}" />
+                        <TextBlock Text="{Binding Path=DBRecordViewModel.Message}"/>
                     </ScrollViewer>
                 </Border>
             </Grid>
             <Grid Grid.Row="2"
                   Grid.Column="0">
-                <Label Content="LogSource"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="LogSource"/>
             </Grid>
             <Grid Grid.Row="2"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogSource}"
-                               Style="{StaticResource TextBlockDetails}"/>                    
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogSource}"/>                    
                 </Border>
             </Grid>
             <Grid Grid.Row="3"
                   Grid.Column="0">
-                <Label Content="LogType"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="LogType"/>
             </Grid>
             <Grid Grid.Row="3"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogType}"
-                           Style="{StaticResource TextBlockDetails}"/>
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.LogType}"/>
                 </Border>
             </Grid>
             <Grid Grid.Row="4"
                   Grid.Column="0">
-                <Label Content="CallerMemberName"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="CallerMemberName"/>
             </Grid>
             <Grid Grid.Row="4"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                <Border>
                     <TextBlock Text="{Binding Path=DBRecordViewModel.CallerMemberName}"
-                           Style="{StaticResource TextBlockDetails}"/>
+                           />
                 </Border>
             </Grid>
             <Grid Grid.Row="5"
                   Grid.Column="0">
-                <Label Content="CallerFilePath"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="CallerFilePath"/>
             </Grid>
             <Grid Grid.Row="5"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
+                <Border>
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
-                        <TextBlock Text="{Binding Path=DBRecordViewModel.CallerFilePath}"
-                                   Style="{StaticResource TextBlockDetails}"/>
+                        <TextBlock Text="{Binding Path=DBRecordViewModel.CallerFilePath}"/>
                     </ScrollViewer>
                 </Border>
             </Grid>
             <Grid Grid.Row="6"
                   Grid.Column="0">
-                <Label Content="CallerLineNumber"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="CallerLineNumber"/>
             </Grid>
             <Grid Grid.Row="6"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.CallerLineNumber}"
-                           Style="{StaticResource TextBlockDetails}"/>
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.CallerLineNumber}"/>
                 </Border>
             </Grid>
             <Grid Grid.Row="7"
                   Grid.Column="0">
-                <Label Content="TotalCpuUsage"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="TotalCpuUsage"/>
             </Grid>
             <Grid Grid.Row="7"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.TotalCpuUsage}"
-                           Style="{StaticResource TextBlockDetails}"/>
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.TotalCpuUsage}"/>
                 </Border>
             </Grid>
             <Grid Grid.Row="8"
                   Grid.Column="0">
-                <Label Content="PrivateMemoryUsage"
-                       Style="{StaticResource LabelFilterCaption}"/>
+                <Label Content="PrivateMemoryUsage"/>
             </Grid>
             <Grid Grid.Row="8"
                   Grid.Column="1">
-                <Border Style="{StaticResource BorderWrapTextBlockDetails}">
-                    <TextBlock Text="{Binding Path=DBRecordViewModel.PrivateMemoryUsage}"
-                           Style="{StaticResource TextBlockDetails}"/>
+                <Border>
+                    <TextBlock Text="{Binding Path=DBRecordViewModel.PrivateMemoryUsage}"/>
                 </Border>
             </Grid>
         </Grid>

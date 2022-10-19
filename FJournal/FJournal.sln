@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FJournalLib", "FJournalLib\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FJournalGUI", "FJournalGUI\FJournalGUI.csproj", "{9E37A22A-D28C-4D08-B04B-B884439134B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FJournalApp", "FJournalApp\FJournalApp.csproj", "{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9E37A22A-D28C-4D08-B04B-B884439134B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E37A22A-D28C-4D08-B04B-B884439134B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E37A22A-D28C-4D08-B04B-B884439134B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

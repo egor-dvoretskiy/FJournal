@@ -41,13 +41,6 @@ namespace FJournalGUI
             this.DataContext = this._applicationViewModel;
             // -
 
-            // events
-            this.grid_TitleBar.MouseDown += Grid_TitleBar_MouseDown;
-            this.grid_TitleBar.OnClose += Grid_TitleBar_OnClose;
-            this.grid_TitleBar.OnMaximize += Grid_TitleBar_OnMaximize;
-            this.grid_TitleBar.OnMinimize += Grid_TitleBar_OnMinimize;
-            // -
-
             // update layout
             this.textblock_AmountOfItemsInRecords.Content = this._applicationViewModel.Records is null ? "0" : this._applicationViewModel.Records.Count().ToString();
             this.UpdateFilterSettingsGroupboxValues();
@@ -59,12 +52,6 @@ namespace FJournalGUI
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;*/
         }
-
-        private void Grid_TitleBar_OnMinimize() => this.WindowState = WindowState.Minimized;
-
-        private void Grid_TitleBar_OnMaximize() => this.WindowState = WindowState.Maximized;
-
-        private void Grid_TitleBar_OnClose() => this.Close();
 
         private void Grid_TitleBar_MouseDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 

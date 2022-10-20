@@ -9,7 +9,6 @@
         xmlns:ethemeviews="clr-namespace:ETheme.Views;assembly=ETheme"
         mc:Ignorable="d"
         x:Name="FJournalWindow"
-        Title="FJournal" 
         MinHeight="400" 
         MinWidth="1080" 
         Height="400" 
@@ -139,7 +138,7 @@
                                     <DataTemplate>
                                         <Grid Width="600">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="3*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid Grid.Column="0"

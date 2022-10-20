@@ -19,7 +19,6 @@ namespace FJournalApp.ViewModels
     internal class ApplicationViewModel : INotifyPropertyChanged
     {
         private readonly IRepository<DBRecord> _mongoRecordRepository;
-        private readonly System.Timers.Timer _timer;
         private readonly Random _random;
         private readonly Parser _parser;
 
@@ -37,28 +36,31 @@ namespace FJournalApp.ViewModels
             this.LiveRecords = new ObservableCollection<DBLiveRecordModel>();
 
             this._random = new Random();
-            this._timer = new System.Timers.Timer();
-            this._timer.Elapsed += _timer_Elapsed;
-            this._timer.AutoReset = true;
-            this._timer.Interval = 1000;
-            this._timer.Enabled = true;
+
+            _timer_Elapsed(this, null);
         }
 
-        private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        private async void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            try
+            while(true)
             {
-                
-                this.LiveRecords.Add(new DBLiveRecordModel()
+                try
                 {
-                    Message = this._random.Next(0, 256).ToString(),
-                    TimeStamp = DateTime.Now,
-                });
-                OnPropertyChanged("LiveRecords");
-            }
-            catch (NotSupportedException exc)
-            {
-                _ = exc;
+                    App.Current.Dispatcher.Invoke((System.Action)delegate
+                    {
+                        this.LiveRecords.Add(new DBLiveRecordModel()
+                        {
+                            Message = this._random.Next(0, 256).ToString(),
+                            TimeStamp = DateTime.Now,
+                        });
+                        OnPropertyChanged("LiveRecords");
+                    });
+                }
+                catch (NotSupportedException exc)
+                {
+                    _ = exc;
+                }
+                await Task.Delay(1000).ConfigureAwait(false);
             }
         }
 

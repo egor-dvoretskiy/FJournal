@@ -28,8 +28,6 @@ namespace FJournalGUI.Views
             InitializeComponent();
 
             this._detailsViewModel = new DetailsViewModel(model, title);
-            this.TitleBarEtheme.OnClose += TitleBarEtheme_OnClose;
-            this.TitleBarEtheme.MouseDown += TitleBarEtheme_MouseDown;
 
             this.DataContext = this._detailsViewModel;
         }

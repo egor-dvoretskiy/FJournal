@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FJournalLib", "FJournalLib\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FJournalGUI", "FJournalGUI\FJournalGUI.csproj", "{9E37A22A-D28C-4D08-B04B-B884439134B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FJournalApp", "FJournalApp\FJournalApp.csproj", "{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FJournalApp", "FJournalApp\FJournalApp.csproj", "{77D630BB-E7BA-4172-A38B-5E2A85AFFA92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
